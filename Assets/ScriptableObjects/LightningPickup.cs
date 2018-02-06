@@ -9,15 +9,13 @@ public class LightningPickup : PlayerPickup
     [Tooltip("Buff duration in seconds."), Range(1f, 15f)]
     public float buffTime;
 
-    public override void Apply(PlayerElement playerElement)
+    public override void Apply(PlayerElementHolder playerElementHolder)
     {
-        //playerElement.LightningPickup(buffTime, playerElement.playerNum);
+        playerElementHolder.SlotElement(element);
 
-        //if(LightningBuffHandler.lightningEffectEvent != null)
-        //    LightningBuffHandler.lightningEffectEvent(buffTime, elementHolder.playerNum);
-        PlayerElement.lightningBuffCheck = 0;
-        PlayerElement.lightningBuffRunningEvent();
-		PlayerElement.lightningBuffEvent(playerElement.playerNum, true);
+        PlayerLightningEffect.lightningBuffCheck = 0;
+        PlayerLightningEffect.lightningBuffRunningEvent();
+		PlayerLightningEffect.lightningBuffEvent(playerElementHolder.playerNum, true);
     }
 
 }

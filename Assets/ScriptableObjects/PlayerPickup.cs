@@ -4,8 +4,8 @@ using UnityEngine;
 
 public abstract class PlayerPickup : ScriptableObject {
 
-	public PlayerElement.Element element;
+	public Elements.Element element;
 
-	public abstract void Apply(PlayerElement playerElement);
+	public abstract void Apply(PlayerElementHolder playerElementHolder);
 
 }

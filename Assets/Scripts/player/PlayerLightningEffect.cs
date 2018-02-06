@@ -2,16 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerElement : PlayerAction{
-	[HideInInspector] public enum Element {
-		None,
-		Fire,
-		Earth,
-		Lightning
-	}	
+public class PlayerLightningEffect : PlayerAction{
+	
 	ParticleSystem.MainModule mainModule;
 	public Color[] colors;
-	public Element currentElement;
 	PlayerMovement playerMovement;
 	float originalMoveSpeed;
 
@@ -28,10 +22,6 @@ public class PlayerElement : PlayerAction{
 		
 		lightningBuffEvent += LightningEventListener;
 		lightningBuffRunningEvent += LightningBuffRunning;
-	}
-
-	public void SlotElement(Element element){
-		currentElement = element;
 	}
 
 	#region lightning variables
