@@ -4,33 +4,69 @@ using UnityEngine;
 
 public class PowerUpCollect : MonoBehaviour {
 
+	float timeToNextPickupType, lastPickupChangeTime;
+
+	[MinMaxRange(1,25)]
+	public RangedFloat respawnTimeRange;
+
 	[MinMaxRange(1,25)]
 	public RangedFloat cycleTimeRange;
-	public PlayerPickup[] pickupTypes;
-	PlayerPickup currentPickupType;
+	public PickupVisuals[] pickupVisuals;
+	Elements.Element currentActiveElement;
+	Coroutine cycle, respawn;
+
+	public List<Elements.Element> excludedElements;
 
 	void Start(){
-		StartCoroutine(CyclePickupType());
+		pickupVisuals = GetComponentsInChildren<PickupVisuals>();
+		
+		foreach(PickupVisuals pv in pickupVisuals){
+			pv.Setup();
+			pv.SetPickupActive(false);
+		}
+
+		ChangeActiveElement();
+
+		cycle = StartCoroutine(CyclePickup());
 	}
 	
-	void OnTriggerEnter(Collider col){
-		//Debug.Log("PowerUp of type " + currentPickupType.element + " collected");
-		PlayerElementHolder playerElementHolder = col.gameObject.GetComponent<PlayerElementHolder>();
-		if(playerElementHolder != null){
-			currentPickupType.Apply(playerElementHolder);
+	public void ChangeActiveElement(){
+		Elements.Element newElement = Elements.RandomElement();
+		if(excludedElements.Count > 0){
+			while(excludedElements.Contains(newElement))
+				newElement = Elements.RandomElement();
+		} else {
+			while(newElement == currentActiveElement);
+				newElement = Elements.RandomElement();
+		}
+
+		currentActiveElement = newElement;
+
+		foreach(PickupVisuals pv in pickupVisuals){
+			if(pv.element != currentActiveElement)
+				pv.SetPickupActive(false);
+			else 
+				pv.SetPickupActive(true);
 		}
 	}
 
-	IEnumerator CyclePickupType(){
-		PlayerPickup pickupTypeTemp;
-		while(gameObject.activeSelf){
-			pickupTypeTemp = pickupTypes[Random.Range(0,pickupTypes.Length)];
-			while(pickupTypeTemp.element == currentPickupType.element)
-				pickupTypeTemp = pickupTypes[Random.Range(0,pickupTypes.Length)];
+	public void PickupCollected(){
+		StopCoroutine(cycle);
+		cycle = null;
+		respawn = StartCoroutine(RespawnTimer());
+	}
 
-			currentPickupType = pickupTypeTemp;
-			yield return new WaitForSeconds(Random.Range(cycleTimeRange.minValue, cycleTimeRange.maxValue));
+	IEnumerator CyclePickup(){
+		while(gameObject.activeSelf){
+			yield return new WaitForSeconds(cycleTimeRange.Random());
+			ChangeActiveElement();
 		}
+	}
+
+	IEnumerator RespawnTimer(){
+		yield return new WaitForSeconds(respawnTimeRange.Random());
+		cycle = StartCoroutine(CyclePickup());
+		respawn = null;
 	}
 
 }

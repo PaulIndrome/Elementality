@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerLightningEffect : PlayerAction{
+public class PlayerLightningEffect : PlayerElementEffect{
 	
 	ParticleSystem.MainModule mainModule;
 	public Color[] colors;
 	PlayerMovement playerMovement;
 	float originalMoveSpeed;
+	float buffTime;
 
 	public void Start(){
 		if(lightningMoveSpeedReduction != 0.5f)
@@ -22,6 +23,15 @@ public class PlayerLightningEffect : PlayerAction{
 		
 		lightningBuffEvent += LightningEventListener;
 		lightningBuffRunningEvent += LightningBuffRunning;
+	}
+
+	public override void Activate(PlayerPickup pickup){
+		LightningPickup lp = pickup as LightningPickup;
+		buffTime = lp.buffTime;
+
+		lightningBuffCheck = 0;
+		lightningBuffRunningEvent();
+		lightningBuffEvent(playerNum, true);
 	}
 
 	#region lightning variables
@@ -47,11 +57,11 @@ public class PlayerLightningEffect : PlayerAction{
 			// if a buff has started
 			case true:
 				// and I started it because I'm a badass!
-				if(pNum == playerNum){
+				if(pNum == playerMovement.playerNum){
 					// I start a new localbufftimer and keep my speed or get it back for thiiiiiiis many seconds!
 					if(lightningBuffTimer != null || lightningBuffActive) StopCoroutine(lightningBuffTimer);
 					playerMovement.m_movementSpeed = originalMoveSpeed;
-					lightningBuffTimer = StartCoroutine(LightningBuffTimer(5.0f));
+					lightningBuffTimer = StartCoroutine(LightningBuffTimer(buffTime));
 					mainModule.startColor = colors[1];
 					return;
 				} else {
@@ -78,7 +88,7 @@ public class PlayerLightningEffect : PlayerAction{
 					return;
 				} else {
 					// otherwise the player who's buff has ended
-					if(pNum == playerNum){
+					if(pNum == playerMovement.playerNum){
 						// sadly gets his speed reduced. What a pity. 
 						mainModule.startColor = colors[2];
 						playerMovement.m_movementSpeed = originalMoveSpeed * lightningMoveSpeedReduction;
@@ -101,7 +111,7 @@ public class PlayerLightningEffect : PlayerAction{
 		lightningBuffTimer = null;
 		lightningBuffCheck = 0;
 		lightningBuffRunningEvent();
-		lightningBuffEvent(playerNum, false);
+		lightningBuffEvent(playerMovement.playerNum, false);
 	}
 	#endregion
 

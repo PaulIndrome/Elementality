@@ -8,19 +8,18 @@ public class PlayerElementHolder : PlayerAction{
 
     public PlayerElementEffect[] elementEffects;
     void Start(){
-        if(elementEffects == null)
-            elementEffects = GetComponents<PlayerElementEffect>();
+        elementEffects = GetComponents<PlayerElementEffect>();
     }
 
-    public void SlotElement(Elements.Element element){
+    public void SlotElement(PlayerPickup pickup){
+        currentElement = pickup.element;
+
         foreach(PlayerElementEffect pE in elementEffects){
-            if(pE.element != element)
-                pE.enabled = false;
-            else {
-                pE.enabled = true;
-                
+            if(pE.element == pickup.element){
+                pE.Activate(pickup);
+            } else {
+                continue;
             }
-                
         }
     }
 

@@ -26,6 +26,8 @@ GameObject:
   - component: {fileID: 114765208743460784}
   - component: {fileID: 114533679427979538}
   - component: {fileID: 114374715618979360}
+  - component: {fileID: 114918753306260266}
+  - component: {fileID: 114833494823967318}
   - component: {fileID: 198465053466115784}
   - component: {fileID: 199074221401255812}
   m_Layer: 0
@@ -203,15 +205,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1160782960322750}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1c50f7656ae8fca41b51f433ce01b7c2, type: 3}
+  m_Script: {fileID: 11500000, guid: efb845bc78c081c41a3cfc4b15822ea3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   playerNum: 0
-  colors:
-  - {r: 1, g: 1, b: 1, a: 1}
-  - {r: 0, g: 1, b: 0.9905875, a: 1}
-  - {r: 1, g: 0, b: 0, a: 1}
   currentElement: 0
+  elementEffects: []
 --- !u!114 &114408310385737648
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -223,7 +222,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 084d3b6aac27a0244abe8e64758f4892, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerNumber: 1
+  playerNumber: 0
 --- !u!114 &114467096795280294
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -271,7 +270,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerNum: 0
-  m_movementSpeed: 20
+  m_movementSpeed: 15
   m_turnSpeed: 1
   m_dodgeSpeedReduction: 0.35
   m_accTime: 1.5
@@ -292,6 +291,38 @@ MonoBehaviour:
   m_dodgeSpeed: 66
   m_dodgeCooldown: 0.75
   m_stickDeadZone: 0.25
+--- !u!114 &114833494823967318
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1160782960322750}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56bce9428d020d14f85f8e9432c22207, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerNum: 0
+  element: 1
+  fireSpawnObject: {fileID: 1633777914103142, guid: 78fd3963313b19b45b567ba80b22be93,
+    type: 2}
+--- !u!114 &114918753306260266
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1160782960322750}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 525693845b1f3eb4185b2243bbf8b8c7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerNum: 0
+  element: 2
+  colors:
+  - {r: 0.82745105, g: 0.82745105, b: 0.82745105, a: 1}
+  - {r: 0, g: 0.6530614, b: 1, a: 1}
+  - {r: 0.9568628, g: 0.32156864, b: 0.08627451, a: 1}
 --- !u!136 &136577726465851332
 CapsuleCollider:
   m_ObjectHideFlags: 1
@@ -391,7 +422,7 @@ ParticleSystem:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-  moveWithTransform: 0
+  moveWithTransform: 1
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
   randomSeed: 0

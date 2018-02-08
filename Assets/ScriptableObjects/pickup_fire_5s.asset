@@ -8,9 +8,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3b84750d5f2a59b4387a20e1c1bf6ba3, type: 3}
-  m_Name: pickup_lightning_5s
+  m_Script: {fileID: 11500000, guid: e29b421869951f047a396c0f07328868, type: 3}
+  m_Name: pickup_fire_5s
   m_EditorClassIdentifier: 
-  buffTime: 5
-  element: 2
-  visuals: {fileID: 1409576944243542, guid: 506fff8b60e8e8840becd656edf39bff, type: 2}
+  element: 1
+  maxSpacingDistance: 5
+  maxSpacingTime: 1.5
+  fireBurnTime: 4
+  effectAmount: 7

@@ -5,13 +5,12 @@ using UnityEngine;
 [CreateAssetMenu(menuName="custom/pickup/fire")]
 public class FirePickup : PlayerPickup {
 
-    [Tooltip("Buff duration in seconds."), Range(1f,15f)]
-    public float buffTime;
+    public float maxSpacingDistance, maxSpacingTime, fireBurnTime;
+    [Tooltip("The fire passive will always spawn at least this amount of fires")]	
+    public int effectAmount;
 
     public override void Apply(PlayerElementHolder playerElementHolder){
-        //SlotElement always needs to be implemented
-        playerElementHolder.SlotElement(element);
-
+        base.Apply(playerElementHolder);
     }
 
 }

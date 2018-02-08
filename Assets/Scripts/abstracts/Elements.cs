@@ -9,4 +9,16 @@ public static class Elements {
         Lightning,
         Earth
     }
+
+    public static Element RandomElement(){
+        int index;
+        index = Random.Range(0, 4);
+        switch(index){
+            case 0: return Element.None;
+            case 1: return Element.Fire;
+            case 2: return Element.Lightning;
+            case 3: return Element.Earth;
+            default: return Element.None;
+        }
+    }
 }
