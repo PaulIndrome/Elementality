@@ -5,10 +5,8 @@ using UnityEngine;
 public class PlayerFireEffect : PlayerElementEffect {
 
 	public GameObject fireSpawnObject;
-
 	int effectAmount;
 	float maxSpacingDistance, maxSpacingTime, fireBurnTime;
-
 	Coroutine fireEffect; 
 
 	public override void Activate(PlayerPickup pickup){
@@ -25,36 +23,33 @@ public class PlayerFireEffect : PlayerElementEffect {
 		fireEffect = StartCoroutine(SpawnFireSteps());
 		
 	}
-
+	public override void Interrupt(){
+		if(fireEffect != null){
+			StopCoroutine(fireEffect);
+			fireEffect = null;
+		}
+	}
 	public void SpawnFire(Vector3 position){
 		GameObject spawn = Instantiate(fireSpawnObject, position, Quaternion.identity);
-			ParticleSystem.MainModule main = spawn.GetComponent<ParticleSystem>().main;
-			main.duration = fireBurnTime;
-			spawn.GetComponent<ParticleSystem>().Play(true);
+		spawn.GetComponent<FireSpawnCollision>().Setup(playerNum, fireBurnTime);
 	}
-
 	IEnumerator SpawnFireSteps(){
 		int spawned = 0;
 		float timer = 0;
 		Vector3 lastSpawnPosition, currentPlayerPosition;
 		currentPlayerPosition = lastSpawnPosition = transform.position;
 		while(spawned < effectAmount){
-
 			while(Vector3.Distance(currentPlayerPosition, lastSpawnPosition) < maxSpacingDistance && timer < maxSpacingTime){
 				currentPlayerPosition = transform.position;
 				timer += Time.deltaTime;
 				yield return null;
 			}
-
 			lastSpawnPosition = currentPlayerPosition;
 			timer = 0;
-
 			SpawnFire(lastSpawnPosition);
-
 			spawned++;
-
 			yield return null;
 		}
+		fireEffect = null;
 	}
-
 }

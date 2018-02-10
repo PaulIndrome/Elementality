@@ -20,6 +20,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4497190834650906}
   - component: {fileID: 199481363736168246}
+  - component: {fileID: 114898698197916726}
+  - component: {fileID: 135051036484107914}
   - component: {fileID: 198368113981485100}
   m_Layer: 0
   m_Name: fireSpawn
@@ -60,7 +62,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4106069611589638
 Transform:
   m_ObjectHideFlags: 1
@@ -81,7 +83,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1918998299940020}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.369, z: 0}
+  m_LocalPosition: {x: 0, y: 0.35, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4497190834650906}
@@ -94,7 +96,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1633777914103142}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 5.96, y: 2.818, z: -0.02}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4106069611589638}
@@ -102,6 +104,37 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114898698197916726
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1633777914103142}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6da3ffac4f5f5ea499000e5428a6e848, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerNum: 0
+  playerColors:
+  - {r: 1, g: 0.081768095, b: 0, a: 0.7490196}
+  - {r: 1, g: 0, b: 0.7260461, a: 0.7490196}
+  - {r: 0, g: 0.4412079, b: 1, a: 0.7490196}
+  - {r: 0.26271024, g: 0.8867924, b: 0, a: 0.7490196}
+  fireCircleParticles: {fileID: 198368113981485100}
+  damagePickup: {fileID: 11400000, guid: 50f61e2479f598547baaaef16abc5a4d, type: 2}
+--- !u!135 &135051036484107914
+SphereCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1633777914103142}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.75
+  m_Center: {x: 0, y: 0.35, z: 0}
 --- !u!135 &135677955249464794
 SphereCollider:
   m_ObjectHideFlags: 1
@@ -112,7 +145,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.5
+  m_Radius: 0.75
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!198 &198368113981485100
 ParticleSystem:
@@ -298,9 +331,9 @@ ParticleSystem:
         m_RotationOrder: 4
     startColor:
       serializedVersion: 2
-      minMaxState: 2
+      minMaxState: 0
       minColor: {r: 1, g: 0.8291087, b: 0, a: 1}
-      maxColor: {r: 1, g: 0.5668886, b: 0, a: 1}
+      maxColor: {r: 1, g: 1, b: 1, a: 1}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 0.8534483, b: 0.375, a: 1}
@@ -743,7 +776,7 @@ ParticleSystem:
     boxThickness: {x: 0, y: 0, z: 0}
     radiusThickness: 0
     donutRadius: 0.2
-    m_Position: {x: 0, y: 0, z: 0}
+    m_Position: {x: 0, y: 0.25, z: 0}
     m_Rotation: {x: -90, y: 0, z: 0}
     m_Scale: {x: 1, y: 1, z: 1}
     placementMode: 0
@@ -1105,14 +1138,14 @@ ParticleSystem:
     y:
       serializedVersion: 2
       minMaxState: 1
-      scalar: 3
+      scalar: 4
       minScalar: 1
       maxCurve:
         serializedVersion: 2
         m_Curve:
         - serializedVersion: 3
           time: 0
-          value: 0.33
+          value: 0.23776224
           inSlope: 0
           outSlope: 0
           tangentMode: 0
@@ -1380,18 +1413,18 @@ ParticleSystem:
       maxColor: {r: 1, g: 1, b: 1, a: 1}
       maxGradient:
         serializedVersion: 2
-        key0: {r: 1, g: 0.8534483, b: 0.375, a: 1}
-        key1: {r: 1, g: 0, b: 0, a: 1}
+        key0: {r: 1, g: 1, b: 1, a: 1}
+        key1: {r: 1, g: 1, b: 1, a: 1}
         key2: {r: 0.8018868, g: 0, b: 0, a: 1}
-        key3: {r: 1, g: 1, b: 1, a: 0}
+        key3: {r: 0.8018868, g: 0, b: 0, a: 0}
         key4: {r: 0, g: 0, b: 0, a: 0.45098042}
         key5: {r: 0, g: 0, b: 0, a: 0}
         key6: {r: 0, g: 0, b: 0, a: 0}
         key7: {r: 0, g: 0, b: 0, a: 0}
         ctime0: 0
-        ctime1: 24672
-        ctime2: 49151
-        ctime3: 65535
+        ctime1: 65535
+        ctime2: 65535
+        ctime3: 59560
         ctime4: 0
         ctime5: 0
         ctime6: 0
@@ -1405,7 +1438,7 @@ ParticleSystem:
         atime6: 0
         atime7: 0
         m_Mode: 0
-        m_NumColorKeys: 3
+        m_NumColorKeys: 2
         m_NumAlphaKeys: 4
       minGradient:
         serializedVersion: 2
@@ -9258,7 +9291,7 @@ ParticleSystemRenderer:
   m_ReflectionProbeUsage: 0
   m_RenderingLayerMask: 4294967295
   m_Materials:
-  - {fileID: 2100000, guid: f7acd4f5f23cdd042ae184a5a4900a06, type: 2}
+  - {fileID: 2100000, guid: 442659aeb93a53948be4d0e719503e0c, type: 2}
   - {fileID: 2100000, guid: f7acd4f5f23cdd042ae184a5a4900a06, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
@@ -9280,13 +9313,13 @@ ParticleSystemRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_RenderMode: 0
-  m_SortMode: 2
+  m_SortMode: 3
   m_MinParticleSize: 0
   m_MaxParticleSize: 0.5
   m_CameraVelocityScale: 0
   m_VelocityScale: 0
   m_LengthScale: 2
-  m_SortingFudge: 0.2
+  m_SortingFudge: 10
   m_NormalDirection: 1
   m_RenderAlignment: 0
   m_Pivot: {x: 0, y: 0, z: 0}

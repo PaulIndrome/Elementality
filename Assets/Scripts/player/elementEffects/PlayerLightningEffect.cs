@@ -7,19 +7,24 @@ public class PlayerLightningEffect : PlayerElementEffect{
 	ParticleSystem.MainModule mainModule;
 	public Color[] colors;
 	PlayerMovement playerMovement;
-	float originalMoveSpeed;
+	PlayerDodge playerDodge;
+	float originalMoveSpeed, originalDodgeSpeed, originalDodgeDistance;
 	float buffTime;
 
 	public void Start(){
-		if(lightningMoveSpeedReduction != 0.5f)
-			lightningMoveSpeedReduction = 0.5f;
+		if(lightningSpeedReduction != 0.5f)
+			lightningSpeedReduction = 0.5f;
 
 		mainModule = transform.GetComponent<ParticleSystem>().main;
 		mainModule.startColor = colors[0];
 		GetComponent<ParticleSystem>().Play();
 
-		this.playerMovement = GetComponent<PlayerMovement>();
-		originalMoveSpeed = this.playerMovement.m_movementSpeed;
+		playerMovement = GetComponent<PlayerMovement>();
+		originalMoveSpeed = playerMovement.m_movementSpeed;
+
+		playerDodge = GetComponent<PlayerDodge>();
+		originalDodgeSpeed = playerDodge.m_dodgeSpeed;
+		originalDodgeDistance = playerDodge.m_dodgeDistance;
 		
 		lightningBuffEvent += LightningEventListener;
 		lightningBuffRunningEvent += LightningBuffRunning;
@@ -34,6 +39,13 @@ public class PlayerLightningEffect : PlayerElementEffect{
 		lightningBuffEvent(playerNum, true);
 	}
 
+	public override void Interrupt(){
+		if(lightningBuffTimer != null){
+			StopCoroutine(lightningBuffTimer);
+			EndLightningBuff();
+		}
+	}
+
 	#region lightning variables
 	public delegate void lightningBuffDelegate(int pNum, bool startEnd);
 	public delegate void lightningBuffRunningDelegate();
@@ -41,7 +53,7 @@ public class PlayerLightningEffect : PlayerElementEffect{
 	public static lightningBuffRunningDelegate lightningBuffRunningEvent;
 	public static int lightningBuffCheck;
 	bool lightningBuffActive = false;
-	public static float lightningMoveSpeedReduction = 0.5f;
+	public static float lightningSpeedReduction, lightningDistanceReduction = 0.5f;
 	Coroutine lightningBuffTimer;
 	#endregion
 
@@ -54,64 +66,66 @@ public class PlayerLightningEffect : PlayerElementEffect{
 		//Debug.Log("Player " + playerNum + " says the check amounts to " + lightningBuffCheck + " at " + Time.time);
 		//Debug.Log("Player " + playerNum + " movement speed = " + playerMovement.m_movementSpeed + " at " + Time.time);
 		switch(startEnd){
-			// if a buff has started
-			case true:
-				// and I started it because I'm a badass!
-				if(pNum == playerMovement.playerNum){
-					// I start a new localbufftimer and keep my speed or get it back for thiiiiiiis many seconds!
-					if(lightningBuffTimer != null || lightningBuffActive) StopCoroutine(lightningBuffTimer);
-					playerMovement.m_movementSpeed = originalMoveSpeed;
+			case true: // if a buff has started
+				if(pNum == playerMovement.playerNum){ // and I started it because I'm a badass!
+					if(lightningBuffTimer != null || lightningBuffActive) // I start a new localbufftimer and keep my speed or get it back for thiiiiiiis many seconds!
+						StopCoroutine(lightningBuffTimer);
+					SlowDownPlayer(false);
 					lightningBuffTimer = StartCoroutine(LightningBuffTimer(buffTime));
 					mainModule.startColor = colors[1];
 					return;
 				} else {
-					// However, if someone else started it and I don't have a buff on me ...
-					if(lightningBuffTimer == null || !lightningBuffActive){
-						// ... my speed is reduced ;_;
-						mainModule.startColor = colors[2];
-						playerMovement.m_movementSpeed = originalMoveSpeed * lightningMoveSpeedReduction;
+					if(lightningBuffTimer == null || !lightningBuffActive){ // However, if someone else started it and I don't have a buff on me ...
+						mainModule.startColor = colors[2]; // ... my speed is reduced ;_;
+						SlowDownPlayer(true);
 						return;
 					}
-					// if I DO have a buff on me, I keep my speed, yay! =^.^=
-					else {
+					else {// if I DO have a buff on me, I keep my speed, yay! =^.^=
 						return;
 					}
 				}
-			// if a buff has ended
-			case false:
-				//Debug.Log("Check is at " + lightningBuffCheck + " at " + Time.time);
-				// and no more buffs are running anywhere.
-				if(lightningBuffCheck <= 0){
-					// everyone gets back up to speed, whoooo!
+			case false: // if a buff has ended
+				if(lightningBuffCheck <= 0){ // and no more buffs are running anywhere.
 					mainModule.startColor = colors[0];
-					playerMovement.m_movementSpeed = originalMoveSpeed;
+					SlowDownPlayer(false); // everyone gets back up to speed, whoooo!
 					return;
 				} else {
-					// otherwise the player who's buff has ended
-					if(pNum == playerMovement.playerNum){
-						// sadly gets his speed reduced. What a pity. 
+					if(pNum == playerMovement.playerNum){ // otherwise the player who's buff has ended
 						mainModule.startColor = colors[2];
-						playerMovement.m_movementSpeed = originalMoveSpeed * lightningMoveSpeedReduction;
-						//Debug.Log("Check players for difference in speed now");
-						//Debug.Break();
+						SlowDownPlayer(true); // sadly gets his speed reduced. What a pity. 
 						return;
 					} else {
-						// Now, every other player that had nothing to do with the ending buff just keeps on truckin'.
-						return;
+						return; // Now, every other player that had nothing to do with the ending buff just keeps on truckin'.
 					}
 				}
 		}
+	}
+
+	public void SlowDownPlayer(bool slowed){
+		if(slowed){
+			playerMovement.m_movementSpeed = originalMoveSpeed * lightningSpeedReduction;
+			playerDodge.m_dodgeSpeed = originalDodgeSpeed * lightningSpeedReduction;
+			playerDodge.m_dodgeDistance = originalDodgeDistance * lightningDistanceReduction;
+		} else {
+			playerMovement.m_movementSpeed = originalMoveSpeed;
+			playerDodge.m_dodgeSpeed = originalDodgeSpeed;
+			playerDodge.m_dodgeDistance = originalDodgeDistance;
+		}
+	}
+
+	public void EndLightningBuff(){
+		lightningBuffActive = false;
+		lightningBuffTimer = null;
+		lightningBuffCheck = 0;
+		lightningBuffRunningEvent();
+		lightningBuffEvent(playerMovement.playerNum, false);
 	}
 
 	IEnumerator LightningBuffTimer(float buffTime){
 		lightningBuffActive = true;
 		yield return new WaitForSeconds(buffTime);
 		//Debug.Log("LocalBuff of Player " + playerNum + " running out" + " at " + Time.time);
-		lightningBuffActive = false;
-		lightningBuffTimer = null;
-		lightningBuffCheck = 0;
-		lightningBuffRunningEvent();
-		lightningBuffEvent(playerMovement.playerNum, false);
+		EndLightningBuff();
 	}
 	#endregion
 
