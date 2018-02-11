@@ -11,13 +11,24 @@ public class PlayerLightningEffect : PlayerElementEffect{
 	float originalMoveSpeed, originalDodgeSpeed, originalDodgeDistance;
 	float buffTime;
 
+	#region lightning variables
+	public delegate void lightningBuffDelegate(int pNum, bool startEnd);
+	public delegate void lightningBuffRunningDelegate();
+	public static lightningBuffDelegate lightningBuffEvent;
+	public static lightningBuffRunningDelegate lightningBuffRunningEvent;
+	public static int lightningBuffCheck;
+	bool lightningBuffActive = false;
+	public static float lightningSpeedReduction, lightningDistanceReduction = 0.5f;
+	Coroutine lightningBuffTimer;
+	#endregion
+
 	public void Start(){
 		if(lightningSpeedReduction != 0.5f)
 			lightningSpeedReduction = 0.5f;
 
 		mainModule = transform.GetComponent<ParticleSystem>().main;
 		mainModule.startColor = colors[0];
-		GetComponent<ParticleSystem>().Play();
+		GetComponent<ParticleSystem>().Play(false);
 
 		playerMovement = GetComponent<PlayerMovement>();
 		originalMoveSpeed = playerMovement.m_movementSpeed;
@@ -35,6 +46,7 @@ public class PlayerLightningEffect : PlayerElementEffect{
 		buffTime = lp.buffTime;
 
 		lightningBuffCheck = 0;
+		Debug.Log("What");
 		lightningBuffRunningEvent();
 		lightningBuffEvent(playerNum, true);
 	}
@@ -45,17 +57,6 @@ public class PlayerLightningEffect : PlayerElementEffect{
 			EndLightningBuff();
 		}
 	}
-
-	#region lightning variables
-	public delegate void lightningBuffDelegate(int pNum, bool startEnd);
-	public delegate void lightningBuffRunningDelegate();
-	public static lightningBuffDelegate lightningBuffEvent;
-	public static lightningBuffRunningDelegate lightningBuffRunningEvent;
-	public static int lightningBuffCheck;
-	bool lightningBuffActive = false;
-	public static float lightningSpeedReduction, lightningDistanceReduction = 0.5f;
-	Coroutine lightningBuffTimer;
-	#endregion
 
 	#region lightning implementation
 	public void LightningBuffRunning(){

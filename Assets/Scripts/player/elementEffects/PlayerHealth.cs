@@ -4,23 +4,40 @@ using UnityEngine;
 
 public class PlayerHealth : PlayerElementEffect {
 
+	public delegate void HealthChangeDelegate(int newHealthVal);
+	public HealthChangeDelegate healthChangeEvent;
+
 	[Range(0,3)]
-	[SerializeField] private int currentHealth;
+	[SerializeField] private int healthCurrent;
 	[SerializeField] private float playerRespawnTime;
 
 	PlayerElementHolder playerElementHolder;
 	Vector3 oldPosition;
 	Coroutine playerTimeOut;
 
+	public int currentHealth {
+		get { return healthCurrent;}
+		set {
+			if(value < 0) return;
+			Debug.Log("a " + healthCurrent);
+			healthCurrent = value;
+			Debug.Log("b " + healthCurrent);
+			healthCurrent = Mathf.Clamp(healthCurrent, 0, 3);
+			Debug.Log("c " + healthCurrent);
+			if(healthChangeEvent != null)
+				healthChangeEvent(healthCurrent);
+		}
+	}
+
 	void Start(){
 		playerElementHolder = GetComponent<PlayerElementHolder>();
+		healthChangeEvent += EvaluateHealth;
 	}
 
 	public override void Activate(PlayerPickup pickup){
 		HealthPickup hp = pickup as HealthPickup;
 		
-		currentHealth = Mathf.Clamp(currentHealth += hp.healthImpact, 0, 3);
-		EvaluateHealth();
+		currentHealth += hp.healthImpact;
 	}
 
 	public override void Interrupt(){
@@ -29,8 +46,8 @@ public class PlayerHealth : PlayerElementEffect {
 		Respawn();
 	}
 
-	public void EvaluateHealth(){
-		if(currentHealth <= 0){
+	public void EvaluateHealth(int newVal){
+		if(newVal <= 0){
 			playerTimeOut = StartCoroutine(PlayerTimeOut());
 		}
 	}
@@ -43,14 +60,6 @@ public class PlayerHealth : PlayerElementEffect {
 		}
 
 		currentHealth = 3;
-	}
-
-	public int GetCurrentHealth(){
-		return currentHealth;
-	}
-
-	public void SetCurrentHealth(int to){
-		currentHealth = Mathf.Clamp(to, 0, 3);
 	}
 
 	IEnumerator PlayerTimeOut(){

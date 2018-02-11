@@ -35,17 +35,17 @@ public class PlayerHealthInspector : Editor {
 
 		GUILayout.BeginHorizontal();
 		if(GUILayout.Button("", white, GUILayout.MaxHeight(20f), GUILayout.MaxWidth(20f))){
-			pH.SetCurrentHealth((pH.GetCurrentHealth() == 0) ? 3 : 0);	
+			pH.currentHealth = ((pH.currentHealth == 0) ? 3 : 0);	
 		}
 		for(int i = 0; i<3; i++){
 			GUILayout.BeginVertical();
-			if(i < pH.GetCurrentHealth()){
+			if(i < pH.currentHealth){
 				if(GUILayout.Button(greenTex, green, GUILayout.MinHeight(20f))){
-					pH.SetCurrentHealth(i+1);	
+					pH.currentHealth += i+1;	
 				}
 			} else {
 				if(GUILayout.Button(redTex, red, GUILayout.MinHeight(20f))){
-					pH.SetCurrentHealth(i+1);
+					pH.currentHealth += i+1;
 				}
 			}
 			GUILayout.EndVertical();

@@ -8,7 +8,7 @@ public class PlayerElementHolder : PlayerAction{
 
     public PlayerElementEffect[] elementEffects;
     void Start(){
-        elementEffects = GetComponents<PlayerElementEffect>();
+        elementEffects = GetComponentsInChildren<PlayerElementEffect>();
     }
 
     public void SlotElement(PlayerPickup pickup){

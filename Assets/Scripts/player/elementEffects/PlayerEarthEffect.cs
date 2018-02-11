@@ -4,10 +4,21 @@ using UnityEngine;
 
 public class PlayerEarthEffect : PlayerElementEffect {
 
-	public GameObject fireSpawnObject;
+	public ParticleSystem earthShieldParticles;
 	bool fullInvulnerability;
 	float buffDuration;
-	Coroutine earthEffect; 
+	Coroutine earthEffect;
+	Color playerColor;
+	SphereCollider earthShieldCollider;
+
+	void Start(){
+		playerColor = GetComponentInParent<PlayerController>().playerColors[playerNum];
+		earthShieldCollider = earthShieldParticles.gameObject.GetComponent<SphereCollider>();
+		var main = earthShieldParticles.main;
+		main.startColor = playerColor;
+		earthShieldParticles.Stop();
+		earthShieldCollider.enabled = false;
+	}
 
 	public override void Activate(PlayerPickup pickup){
 		EarthPickup ep = pickup as EarthPickup;
@@ -24,12 +35,17 @@ public class PlayerEarthEffect : PlayerElementEffect {
 		if(earthEffect != null){
 			StopCoroutine(earthEffect);
 			earthEffect = null;
+			earthShieldParticles.Stop();
+			earthShieldCollider.enabled = false;
 		}
 	}
 	
 	IEnumerator ActivateEarthShield(){
-		yield return null;
-
+		earthShieldCollider.enabled = true;
+		earthShieldParticles.Play();
+		yield return new WaitForSeconds(buffDuration);
+		earthShieldParticles.Stop();
+		earthShieldCollider.enabled = false;
 		earthEffect = null;
 	}
 }
