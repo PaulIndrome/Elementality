@@ -41,7 +41,7 @@ GameObject:
   - component: {fileID: 54495229914481542}
   - component: {fileID: 114663493111683962}
   m_Layer: 0
-  m_Name: BaseProjectile
+  m_Name: FireProjectile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -142,7 +142,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3f9b57bdfa83464a8beea7ddb55cac0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  projectileElement: 1
   reorientSpeed: 10
+  reorientTime: 1.5
   flightSpeed: 12.5
 --- !u!135 &135042249885344564
 SphereCollider:

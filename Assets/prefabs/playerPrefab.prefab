@@ -430,12 +430,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerNum: 0
-  fireProjectile: {fileID: 0}
-  lightningProjectile: {fileID: 0}
-  earthProjectile: {fileID: 0}
+  fireProjectile: {fileID: 1721826442785928, guid: fa428e1b8e8006d4d8d296ea19f89191,
+    type: 2}
+  lightningProjectile: {fileID: 1721826442785928, guid: fa428e1b8e8006d4d8d296ea19f89191,
+    type: 2}
+  earthProjectile: {fileID: 1721826442785928, guid: fa428e1b8e8006d4d8d296ea19f89191,
+    type: 2}
   playerLayer:
     serializedVersion: 2
     m_Bits: 1024
+  meleeRange: 4
+  rangedRange: 16
+  rangedConeAngle: 45
 --- !u!114 &114764824173427370
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -551,7 +557,7 @@ CapsuleCollider:
   m_GameObject: {fileID: 1529390827343228}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   m_Radius: 0.5
   m_Height: 2
   m_Direction: 1

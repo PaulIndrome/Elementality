@@ -17,8 +17,8 @@ public class TestLauncherScript : MonoBehaviour {
 	IEnumerator FireProjectiles(){
 		int shootAtPlayer = 1;
 		while(gameObject.activeSelf){
-			ProjectileFlight pf = Instantiate(projectilePrefab, transform.position, Quaternion.identity).GetComponent<ProjectileFlight>();
-			pf.Shoot(shootAtPlayer, playerMovements[(shootAtPlayer + 1) % playerMovements.Length]);
+			Projectile p = Instantiate(projectilePrefab, transform.position, Quaternion.identity).GetComponent<Projectile>();
+			p.Shoot(shootAtPlayer, playerMovements[(shootAtPlayer + 1) % playerMovements.Length]);
 			shootAtPlayer = (shootAtPlayer + 1) % playerMovements.Length;
 			yield return new WaitForSeconds(1f);
 		}
