@@ -31,6 +31,7 @@ public class PlayerEarthEffect : PlayerElementEffect {
 
 		earthEffect = StartCoroutine(ActivateEarthShield());
 	}
+	
 	public override void Interrupt(){
 		if(earthEffect != null){
 			StopCoroutine(earthEffect);

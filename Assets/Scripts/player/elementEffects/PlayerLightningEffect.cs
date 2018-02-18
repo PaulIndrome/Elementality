@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class PlayerLightningEffect : PlayerElementEffect{
 	
-	ParticleSystem.MainModule mainModule;
-	public Color[] colors;
+	//ParticleSystem.MainModule mainModule;
+	//public Color[] colors;
 	PlayerMovement playerMovement;
 	PlayerDodge playerDodge;
 	float originalMoveSpeed, originalDodgeSpeed, originalDodgeDistance;
@@ -26,9 +26,9 @@ public class PlayerLightningEffect : PlayerElementEffect{
 		if(lightningSpeedReduction != 0.5f)
 			lightningSpeedReduction = 0.5f;
 
-		mainModule = transform.GetComponent<ParticleSystem>().main;
-		mainModule.startColor = colors[0];
-		GetComponent<ParticleSystem>().Play(false);
+		//mainModule = transform.GetComponent<ParticleSystem>().main;
+		//mainModule.startColor = colors[0];
+		//GetComponent<ParticleSystem>().Play(false);
 
 		playerMovement = GetComponent<PlayerMovement>();
 		originalMoveSpeed = playerMovement.m_movementSpeed;
@@ -46,7 +46,6 @@ public class PlayerLightningEffect : PlayerElementEffect{
 		buffTime = lp.buffTime;
 
 		lightningBuffCheck = 0;
-		Debug.Log("What");
 		lightningBuffRunningEvent();
 		lightningBuffEvent(playerNum, true);
 	}
@@ -62,10 +61,7 @@ public class PlayerLightningEffect : PlayerElementEffect{
 	public void LightningBuffRunning(){
 		lightningBuffCheck += lightningBuffActive ? 1 : 0;
 	}
-
 	public void LightningEventListener(int pNum, bool startEnd){
-		//Debug.Log("Player " + playerNum + " says the check amounts to " + lightningBuffCheck + " at " + Time.time);
-		//Debug.Log("Player " + playerNum + " movement speed = " + playerMovement.m_movementSpeed + " at " + Time.time);
 		switch(startEnd){
 			case true: // if a buff has started
 				if(pNum == playerMovement.playerNum){ // and I started it because I'm a badass!
@@ -73,11 +69,11 @@ public class PlayerLightningEffect : PlayerElementEffect{
 						StopCoroutine(lightningBuffTimer);
 					SlowDownPlayer(false);
 					lightningBuffTimer = StartCoroutine(LightningBuffTimer(buffTime));
-					mainModule.startColor = colors[1];
+					//mainModule.startColor = colors[1];
 					return;
 				} else {
 					if(lightningBuffTimer == null || !lightningBuffActive){ // However, if someone else started it and I don't have a buff on me ...
-						mainModule.startColor = colors[2]; // ... my speed is reduced ;_;
+						//mainModule.startColor = colors[2]; // ... my speed is reduced ;_;
 						SlowDownPlayer(true);
 						return;
 					}
@@ -87,12 +83,12 @@ public class PlayerLightningEffect : PlayerElementEffect{
 				}
 			case false: // if a buff has ended
 				if(lightningBuffCheck <= 0){ // and no more buffs are running anywhere.
-					mainModule.startColor = colors[0];
+					//mainModule.startColor = colors[0];
 					SlowDownPlayer(false); // everyone gets back up to speed, whoooo!
 					return;
 				} else {
 					if(pNum == playerMovement.playerNum){ // otherwise the player who's buff has ended
-						mainModule.startColor = colors[2];
+						//mainModule.startColor = colors[2];
 						SlowDownPlayer(true); // sadly gets his speed reduced. What a pity. 
 						return;
 					} else {
@@ -101,7 +97,6 @@ public class PlayerLightningEffect : PlayerElementEffect{
 				}
 		}
 	}
-
 	public void SlowDownPlayer(bool slowed){
 		if(slowed){
 			playerMovement.m_movementSpeed = originalMoveSpeed * lightningSpeedReduction;
@@ -113,7 +108,6 @@ public class PlayerLightningEffect : PlayerElementEffect{
 			playerDodge.m_dodgeDistance = originalDodgeDistance;
 		}
 	}
-
 	public void EndLightningBuff(){
 		lightningBuffActive = false;
 		lightningBuffTimer = null;
@@ -121,7 +115,6 @@ public class PlayerLightningEffect : PlayerElementEffect{
 		lightningBuffRunningEvent();
 		lightningBuffEvent(playerMovement.playerNum, false);
 	}
-
 	IEnumerator LightningBuffTimer(float buffTime){
 		lightningBuffActive = true;
 		yield return new WaitForSeconds(buffTime);
@@ -129,6 +122,4 @@ public class PlayerLightningEffect : PlayerElementEffect{
 		EndLightningBuff();
 	}
 	#endregion
-
-
 }
