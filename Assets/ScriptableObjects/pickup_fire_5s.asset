@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e29b421869951f047a396c0f07328868, type: 3}
+  m_Name: pickup_fire_5s
+  m_EditorClassIdentifier: 
+  element: 1
+  maxSpacingDistance: 5
+  maxSpacingTime: 1.5
+  fireBurnTime: 4
+  effectAmount: 7

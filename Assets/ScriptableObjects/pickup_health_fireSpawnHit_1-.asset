@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 39347030f9976ca4fa67bbca49a5668a, type: 3}
+  m_Name: pickup_health_fireSpawnHit_1-
+  m_EditorClassIdentifier: 
+  element: 0
+  playActivationParticles: 1
+  activationParticles: {fileID: 1241822794308368, guid: d8dd116f3959fa849a251b86f228fb03,
+    type: 2}
+  healthImpact: -1

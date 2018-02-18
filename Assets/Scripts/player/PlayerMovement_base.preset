@@ -34,7 +34,7 @@ Preset:
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_movementSpeed
-    value: 20
+    value: 15
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_turnSpeed

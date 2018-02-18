@@ -11,5 +11,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b84750d5f2a59b4387a20e1c1bf6ba3, type: 3}
   m_Name: pickup_lightning_5s
   m_EditorClassIdentifier: 
-  element: 3
+  element: 2
+  playActivationParticles: 0
+  activationParticles: {fileID: 0}
   buffTime: 5

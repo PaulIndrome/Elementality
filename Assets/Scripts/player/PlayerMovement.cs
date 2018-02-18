@@ -13,14 +13,12 @@ public class PlayerMovement : PlayerAction {
 	CharacterController m_characterController;
 	Vector3 m_playerDirectionNext, m_playerDirectionCurrent = Vector3.zero;
 	PlayerController m_playerController;
-	PlayerElement m_playerElement;
 
 	string horizontalMoveAxis, verticalMoveAxis;
 
     void Start () {
 		m_characterController = GetComponent<CharacterController>();
 		m_playerController = GetComponent<PlayerController>();
-		m_playerElement = GetComponent<PlayerElement>();
 	}
 	
 	void Update () {

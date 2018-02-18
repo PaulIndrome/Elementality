@@ -8,6 +8,8 @@ public class PlayerController : MonoBehaviour {
 	public event BoolChangeDelegate IsDodgingEvent, IsGroundedEvent, CanMoveEvent, PlayerIsActiveEvent;
 	public static event BoolChangeDelegate AllPlayersActiveEvent;
 
+	public Color[] playerColors;
+
 	public bool IsGrounded{
 		get {return m_isGrounded;}
 		set {
