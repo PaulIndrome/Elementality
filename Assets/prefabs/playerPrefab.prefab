@@ -177,7 +177,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1160782960322750}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -6.5, y: 1.35, z: 4.6}
+  m_LocalPosition: {x: -11.3, y: 1.35, z: 3.85}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4870921170701078}
@@ -219,7 +219,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1596232436068892}
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: -0.82, z: -0}
+  m_LocalPosition: {x: 0, y: 1, z: -0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4466772502204070}
@@ -336,6 +336,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerNum: 0
   element: 0
+  elementPickup: {fileID: 0}
+  meleeParticle: {fileID: 0}
+  rangedParticle: {fileID: 0}
+  elementProjectile: {fileID: 0}
   healthCurrent: 3
   playerRespawnTime: 5
 --- !u!114 &114374715618979360
@@ -417,6 +421,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerNum: 0
   element: 3
+  elementPickup: {fileID: 0}
+  meleeParticle: {fileID: 0}
+  rangedParticle: {fileID: 0}
+  elementProjectile: {fileID: 1721826442785928, guid: fa428e1b8e8006d4d8d296ea19f89191,
+    type: 2}
   earthShieldParticles: {fileID: 198851651013679800}
 --- !u!114 &114680273391027098
 MonoBehaviour:
@@ -439,7 +448,7 @@ MonoBehaviour:
   playerLayer:
     serializedVersion: 2
     m_Bits: 1024
-  meleeRange: 4
+  meleeRange: 5
   rangedRange: 16
   rangedConeAngle: 45
 --- !u!114 &114764824173427370
@@ -488,6 +497,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerNum: 0
   element: 1
+  elementPickup: {fileID: 0}
+  meleeParticle: {fileID: 0}
+  rangedParticle: {fileID: 0}
+  elementProjectile: {fileID: 1721826442785928, guid: fa428e1b8e8006d4d8d296ea19f89191,
+    type: 2}
   fireSpawnObject: {fileID: 1633777914103142, guid: 78fd3963313b19b45b567ba80b22be93,
     type: 2}
 --- !u!114 &114882976792381658
@@ -519,6 +533,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerNum: 0
   element: 2
+  elementPickup: {fileID: 0}
+  meleeParticle: {fileID: 0}
+  rangedParticle: {fileID: 0}
+  elementProjectile: {fileID: 1721826442785928, guid: fa428e1b8e8006d4d8d296ea19f89191,
+    type: 2}
 --- !u!119 &119384624330764466
 Projector:
   m_ObjectHideFlags: 1
@@ -527,12 +546,12 @@ Projector:
   m_GameObject: {fileID: 1596232436068892}
   m_Enabled: 1
   serializedVersion: 2
-  m_NearClipPlane: 0.01
-  m_FarClipPlane: 8.7
-  m_FieldOfView: 14.08
+  m_NearClipPlane: 1.5
+  m_FarClipPlane: 2.5
+  m_FieldOfView: 85.4
   m_AspectRatio: 1
-  m_Orthographic: 1
-  m_OrthographicSize: 1.9
+  m_Orthographic: 0
+  m_OrthographicSize: 1
   m_Material: {fileID: 2100000, guid: 3905077b9d4a43240881dc5f28a2f45e, type: 2}
   m_IgnoreLayers:
     serializedVersion: 2

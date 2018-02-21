@@ -14,7 +14,7 @@ public class ParticleSpawner : ScriptableObject {
 
 	public void SpawnParticleSystem(Transform tr){
 		if(!CheckParticleObject()) return;
-		if(preSetDuration > 0){
+		if(preSetDuration > 0.01f){
 			var main = particleSystem.main;
 			main.duration = preSetDuration;
 		}

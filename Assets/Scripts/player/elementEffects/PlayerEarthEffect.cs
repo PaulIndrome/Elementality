@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PlayerEarthEffect : PlayerElementEffect {
 
+	
 	public ParticleSystem earthShieldParticles;
 	bool fullInvulnerability;
 	float buffDuration;

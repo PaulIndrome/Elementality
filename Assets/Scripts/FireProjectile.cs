@@ -10,7 +10,7 @@ public class FireProjectile : Projectile {
 	
 
 	public void OnTriggerEnter(Collider col){
-		Debug.Log("Projectile from " + shotByPlayerNum + " to " + shotAtPlayerNum + " collided with " + col.gameObject.name);
+		//Debug.Log("Projectile from " + shotByPlayerNum + " to " + shotAtPlayerNum + " collided with " + col.gameObject.name);
 		PlayerMovement pm = col.GetComponent<PlayerMovement>();
 		if(pm != null){
 			StopCoroutine(moveProjectile);

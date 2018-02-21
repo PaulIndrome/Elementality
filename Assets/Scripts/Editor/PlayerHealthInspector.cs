@@ -10,6 +10,8 @@ public class PlayerHealthInspector : Editor {
 	public Texture2D redTex, greenTex, whiteTex, clickedTex;
 	public GUIStyle red, green, white;
 
+	SerializedProperty playerNumProp, currentHealthProp, elementProp, playerRespawnProp;
+
 	void OnEnable(){
 		red = new GUIStyle();
 		green = new GUIStyle();
@@ -28,10 +30,15 @@ public class PlayerHealthInspector : Editor {
 
 		red.margin = green.margin = white.margin = new RectOffset(20,30,10,10);
 
-		pH = (PlayerHealth) target;
+		pH = serializedObject.targetObject as PlayerHealth;
+		playerNumProp = serializedObject.FindProperty("playerNum");
+		currentHealthProp = serializedObject.FindProperty("healthCurrent");
+		elementProp = serializedObject.FindProperty("element");
+		playerRespawnProp = serializedObject.FindProperty("playerRespawnTime");
 	}
 
 	public override void OnInspectorGUI(){
+		serializedObject.Update();
 
 		GUILayout.BeginHorizontal();
 		if(GUILayout.Button("", white, GUILayout.MaxHeight(20f), GUILayout.MaxWidth(20f))){
@@ -41,20 +48,27 @@ public class PlayerHealthInspector : Editor {
 			GUILayout.BeginVertical();
 			if(i < pH.currentHealth){
 				if(GUILayout.Button(greenTex, green, GUILayout.MinHeight(20f))){
-					pH.currentHealth += i+1;	
+					pH.currentHealth = i+1;	
 				}
 			} else {
 				if(GUILayout.Button(redTex, red, GUILayout.MinHeight(20f))){
-					pH.currentHealth += i+1;
+					pH.currentHealth = i+1;
 				}
 			}
 			GUILayout.EndVertical();
 		}
 		GUILayout.EndHorizontal();
 
-		GUI.color = Color.white;
+		GUI.backgroundColor = GUI.contentColor = GUI.color = new Color(255f/255f,202f/255f,202f/255f);
 
-		DrawDefaultInspector();
+		EditorGUILayout.LabelField("Player Number: " + playerNumProp.intValue);
+		pH.element = (Elements.Element) EditorGUILayout.EnumPopup("Element", pH.element);
+		EditorGUILayout.IntSlider(currentHealthProp, 0, 3, new GUIContent("Current Health"));
+		EditorGUILayout.Slider(playerRespawnProp, 1, 10, new GUIContent("Respawn Time"));
+
+		serializedObject.ApplyModifiedProperties();
 
 	}
+
+
 }
