@@ -6,6 +6,7 @@ public class PlayerLightningEffect : PlayerElementEffect{
 	
 	//ParticleSystem.MainModule mainModule;
 	//public Color[] colors;
+	LightningPickup elementPickup;
 	PlayerMovement playerMovement;
 	PlayerDodge playerDodge;
 	float originalMoveSpeed, originalDodgeSpeed, originalDodgeDistance;
@@ -19,10 +20,15 @@ public class PlayerLightningEffect : PlayerElementEffect{
 	public static int lightningBuffCheck;
 	bool lightningBuffActive = false;
 	public static float lightningSpeedReduction, lightningDistanceReduction = 0.5f;
+
+	[Header("(public) element speficic variables")]
+	public GameObject speedUpParticles;
 	Coroutine lightningBuffTimer;
 	#endregion
 
-	public void Start(){
+	public override void Start(){
+		base.Start();
+
 		if(lightningSpeedReduction != 0.5f)
 			lightningSpeedReduction = 0.5f;
 
@@ -41,20 +47,28 @@ public class PlayerLightningEffect : PlayerElementEffect{
 		lightningBuffRunningEvent += LightningBuffRunning;
 	}
 
-	public override void Activate(PlayerPickup pickup){
-		LightningPickup lp = pickup as LightningPickup;
-		buffTime = lp.buffTime;
-
-		lightningBuffCheck = 0;
-		lightningBuffRunningEvent();
-		lightningBuffEvent(playerNum, true);
+	public override void SlotPickup(PlayerPickup pickup){
+		elementPickup = pickup as LightningPickup;
 	}
 
 	public override void Interrupt(){
+		base.Interrupt();
 		if(lightningBuffTimer != null){
 			StopCoroutine(lightningBuffTimer);
 			EndLightningBuff();
 		}
+	}
+
+	public override void CastDefense(){
+		buffTime = elementPickup.buffDuration;
+		lightningSpeedReduction = elementPickup.movementSpeedReduction;
+		lightningDistanceReduction = elementPickup.dodgeDistanceReduction;
+
+		defenseEffect = StartCoroutine(ActivateDefenseShield());
+
+		lightningBuffCheck = 0;
+		lightningBuffRunningEvent();
+		lightningBuffEvent(playerNum, true);
 	}
 
 	#region lightning implementation
@@ -69,6 +83,7 @@ public class PlayerLightningEffect : PlayerElementEffect{
 						StopCoroutine(lightningBuffTimer);
 					SlowDownPlayer(false);
 					lightningBuffTimer = StartCoroutine(LightningBuffTimer(buffTime));
+					speedUpParticles.SetActive(true);
 					//mainModule.startColor = colors[1];
 					return;
 				} else {
@@ -99,6 +114,7 @@ public class PlayerLightningEffect : PlayerElementEffect{
 	}
 	public void SlowDownPlayer(bool slowed){
 		if(slowed){
+			speedUpParticles.SetActive(false);
 			playerMovement.m_movementSpeed = originalMoveSpeed * lightningSpeedReduction;
 			playerDodge.m_dodgeSpeed = originalDodgeSpeed * lightningSpeedReduction;
 			playerDodge.m_dodgeDistance = originalDodgeDistance * lightningDistanceReduction;
@@ -109,6 +125,7 @@ public class PlayerLightningEffect : PlayerElementEffect{
 		}
 	}
 	public void EndLightningBuff(){
+		speedUpParticles.SetActive(false);
 		lightningBuffActive = false;
 		lightningBuffTimer = null;
 		lightningBuffCheck = 0;
@@ -118,7 +135,6 @@ public class PlayerLightningEffect : PlayerElementEffect{
 	IEnumerator LightningBuffTimer(float buffTime){
 		lightningBuffActive = true;
 		yield return new WaitForSeconds(buffTime);
-		//Debug.Log("LocalBuff of Player " + playerNum + " running out" + " at " + Time.time);
 		EndLightningBuff();
 	}
 	#endregion

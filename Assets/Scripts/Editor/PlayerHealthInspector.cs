@@ -4,15 +4,17 @@ using UnityEngine;
 using UnityEditor;
 
 [CustomEditor(typeof(PlayerHealth))]
-public class PlayerHealthInspector : Editor {
-	PlayerHealth pH;
+public class PlayerHealthInspector : PlayerElementEffectInspector {
 
+	PlayerHealth pH;
 	public Texture2D redTex, greenTex, whiteTex, clickedTex;
 	public GUIStyle red, green, white;
 
-	SerializedProperty playerNumProp, currentHealthProp, elementProp, playerRespawnProp;
+	SerializedProperty playerNumProp, currentHealthProp, playerRespawnProp, meleeParticleProp;
 
-	void OnEnable(){
+	public override void OnEnable(){
+		base.OnEnable();
+		pH = pee as PlayerHealth;
 		red = new GUIStyle();
 		green = new GUIStyle();
 		white = new GUIStyle();
@@ -30,11 +32,10 @@ public class PlayerHealthInspector : Editor {
 
 		red.margin = green.margin = white.margin = new RectOffset(20,30,10,10);
 
-		pH = serializedObject.targetObject as PlayerHealth;
 		playerNumProp = serializedObject.FindProperty("playerNum");
 		currentHealthProp = serializedObject.FindProperty("healthCurrent");
-		elementProp = serializedObject.FindProperty("element");
 		playerRespawnProp = serializedObject.FindProperty("playerRespawnTime");
+		meleeParticleProp = serializedObject.FindProperty("meleeParticle");
 	}
 
 	public override void OnInspectorGUI(){
@@ -59,15 +60,17 @@ public class PlayerHealthInspector : Editor {
 		}
 		GUILayout.EndHorizontal();
 
-		GUI.backgroundColor = GUI.contentColor = GUI.color = new Color(255f/255f,202f/255f,202f/255f);
+		DrawInspector(false);
+
+		//GUI.backgroundColor = GUI.contentColor = GUI.color = new Color(255f/255f,202f/255f,202f/255f);
 
 		EditorGUILayout.LabelField("Player Number: " + playerNumProp.intValue);
 		pH.element = (Elements.Element) EditorGUILayout.EnumPopup("Element", pH.element);
 		EditorGUILayout.IntSlider(currentHealthProp, 0, 3, new GUIContent("Current Health"));
 		EditorGUILayout.Slider(playerRespawnProp, 1, 10, new GUIContent("Respawn Time"));
+		EditorGUILayout.ObjectField(meleeParticleProp, typeof(ParticleSpawner), new GUIContent("get-hit particles"));
 
 		serializedObject.ApplyModifiedProperties();
-
 	}
 
 

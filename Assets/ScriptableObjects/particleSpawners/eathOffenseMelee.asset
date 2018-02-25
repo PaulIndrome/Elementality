@@ -9,9 +9,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 61c603eac895b424296d45260d142819, type: 3}
-  m_Name: fireOffense
+  m_Name: eathOffenseMelee
   m_EditorClassIdentifier: 
   rotateToTransform: 0
   preSetDuration: 0
-  particleObject: {fileID: 1584448220951288, guid: 8d157f42c125c5849906cc54938c0d6a,
+  particleObject: {fileID: 1584448220951288, guid: 088c5228f63b93547ad21f083e939e3d,
     type: 2}

@@ -12,7 +12,7 @@ public class PlayerOffense : PlayerAction {
 	[SerializeField] private GameObject lightningProjectile;
 	[SerializeField] private GameObject earthProjectile;
 	[SerializeField] LayerMask playerLayer;
-	[SerializeField] float meleeRange, rangedRange, rangedConeAngle;
+	[SerializeField] float meleeRange = 0, rangedRange = 0, rangedConeAngle = 0;
 
 	PlayerElementEffect earthElementEffect;
 	PlayerElementEffect fireElementEffect;
@@ -20,7 +20,7 @@ public class PlayerOffense : PlayerAction {
 
 	Collider[] colliders;
 
-	bool shotCoolingDown = false;
+	bool offenseCoolingDown = false;
 
 	void Start () {
 		earthElementEffect = GetComponent<PlayerEarthEffect>();
@@ -32,14 +32,12 @@ public class PlayerOffense : PlayerAction {
 		offenseMeleeCheckEvent += OffenseMeleeCheck;
 	}
 	void Update () {
-		if(Input.GetAxis("Offensive" + playerNum) >= 0.5f && !shotCoolingDown){
-			shotCoolingDown = true;
-			StartCoroutine(StartShotCooldown());
+		if((Input.GetAxis("Offensive" + playerNum) >= 0.5f || Input.GetAxis("Offensive" + playerNum) <= -0.5f) && !offenseCoolingDown){
+			offenseCoolingDown = true;
+			StartCoroutine(StartOffenseCooldown());
 			if(playerElementHolder.currentElement != Elements.Element.None){
 				CastOffense();
-			} else {
-				Debug.LogError("No active element");
-			}
+			} 
 		}
 	}
 	public void CastOffense(){
@@ -85,8 +83,6 @@ public class PlayerOffense : PlayerAction {
 			CheckRangedRange();
 			return;
 		}
-		Debug.LogError("Melee Range if-case was skipped");
-		return;
 	}
 	void CheckRangedRange(){
 		List<Transform> playersInCone;
@@ -121,52 +117,40 @@ public class PlayerOffense : PlayerAction {
 			ShootProjectileAt(bestTarget);
 			return;
 		}
-		Debug.LogError("Ranged if-case was skipped");
-		return;
 	}
 	void HitPlayersMelee(PlayerMovement[] targets){
-		GameObject projectileType;
 		switch(playerElementHolder.currentElement){
 			case Elements.Element.Earth: 
-				projectileType = earthProjectile;
+				earthElementEffect.CastOffense(targets);
 				break;
 			case Elements.Element.Fire: 
-				projectileType = fireProjectile;
+				fireElementEffect.CastOffense(targets);
 				break;
 			case Elements.Element.Lightning: 
-				projectileType = lightningProjectile;
+				lightningElementEffect.CastOffense(targets);
 				break;
 			default:
 				return;
-		}
-		Projectile p;
-		foreach(PlayerMovement pm in targets){
-			if(pm.playerNum != playerNum){
-				p = Instantiate(projectileType, transform.position + transform.forward, transform.rotation).GetComponent<Projectile>();
-				p.Shoot(playerNum, pm);
-			}
 		}
 	}
 	void ShootProjectileAt(PlayerMovement target){
-		Projectile p;
 		switch(playerElementHolder.currentElement){
 			case Elements.Element.Earth: 
-				p = Instantiate(earthProjectile, transform.position + transform.forward, transform.rotation).GetComponent<Projectile>();
+				earthElementEffect.CastOffense(target);
 				break;
 			case Elements.Element.Fire: 
-				p = Instantiate(fireProjectile, transform.position + transform.forward, transform.rotation).GetComponent<Projectile>();
+				fireElementEffect.CastOffense(target);
 				break;
 			case Elements.Element.Lightning: 
-				p = Instantiate(lightningProjectile, transform.position + transform.forward, transform.rotation).GetComponent<Projectile>();
+				lightningElementEffect.CastOffense(target);
 				break;
 			default:
 				return;
 		}
-		p.Shoot(playerNum, target);
 	}
-	IEnumerator StartShotCooldown(){
+	IEnumerator StartOffenseCooldown(){
 		yield return new WaitUntil(() => Input.GetAxis("Offensive" + playerNum) < 0.25f);
-		shotCoolingDown = false;
+		offenseCoolingDown = false;
 	}
 	void OnDrawGizmosSelected(){
 		Gizmos.color = Color.red;

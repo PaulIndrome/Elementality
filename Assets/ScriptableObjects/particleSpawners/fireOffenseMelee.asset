@@ -8,10 +8,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9bb7dc6f874a2a949af70d3dd9dd2e36, type: 3}
-  m_Name: pickup_earth_5s
+  m_Script: {fileID: 11500000, guid: 61c603eac895b424296d45260d142819, type: 3}
+  m_Name: fireOffenseMelee
   m_EditorClassIdentifier: 
-  element: 3
-  buffDuration: 5
-  playActivationParticles: 0
-  activationParticles: {fileID: 0}
+  rotateToTransform: 0
+  preSetDuration: 0
+  particleObject: {fileID: 1584448220951288, guid: 8d157f42c125c5849906cc54938c0d6a,
+    type: 2}

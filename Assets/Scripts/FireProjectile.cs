@@ -4,27 +4,11 @@ using UnityEngine;
 
 public class FireProjectile : Projectile {
 
-	public float reorientSpeed;
-	public float reorientTime = 1.5f;
-	public float flightSpeed;
+
+	
 	
 
-	public void OnTriggerEnter(Collider col){
-		//Debug.Log("Projectile from " + shotByPlayerNum + " to " + shotAtPlayerNum + " collided with " + col.gameObject.name);
-		PlayerMovement pm = col.GetComponent<PlayerMovement>();
-		if(pm != null){
-			StopCoroutine(moveProjectile);
-			Destroy(gameObject);
-		} else {
-			return;
-		}
-	}
-
-	public override Coroutine StartProjectile(){
-		return StartCoroutine(MoveProjectile());
-	}
-	
-	IEnumerator MoveProjectile(){
+	protected override IEnumerator MoveProjectile(){
 		float timer = 0;
 		while(!collided){
 			if(currentTarget != null && timer < reorientTime){

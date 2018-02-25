@@ -4,35 +4,49 @@ using UnityEngine;
 
 public class PlayerFireEffect : PlayerElementEffect {
 
-	public GameObject fireSpawnObject;
+	FirePickup elementPickup;
+	
 	int effectAmount;
 	float maxSpacingDistance, maxSpacingTime, fireBurnTime;
-	Coroutine fireEffect; 
+	Coroutine fireStepsSpawning; 
 
-	public override void Activate(PlayerPickup pickup){
-		FirePickup fp = pickup as FirePickup;
-
-		if(fireEffect != null)
-			StopCoroutine(fireEffect);
-
-		effectAmount = fp.effectAmount;
-		fireBurnTime = fp.fireBurnTime;
-		maxSpacingDistance = fp.maxSpacingDistance;
-		maxSpacingTime = fp.maxSpacingTime;
-
-		fireEffect = StartCoroutine(SpawnFireSteps());
-		
+	[Header("(public) element speficic variables")]
+	public GameObject fireSpawnObject;
+	
+	public override void SlotPickup(PlayerPickup pickup){
+		elementPickup = pickup as FirePickup;
 	}
+
+	public override void CastDefense(){
+		if(defenseEffect != null)
+			StopCoroutine(defenseEffect);
+		if(fireStepsSpawning != null)
+			StopCoroutine(fireStepsSpawning);
+		
+		buffDuration = elementPickup.buffDuration;
+		effectAmount = elementPickup.effectAmount;
+		fireBurnTime = elementPickup.fireBurnTime;
+		maxSpacingDistance = elementPickup.maxSpacingDistance;
+		maxSpacingTime = elementPickup.maxSpacingTime;
+
+		defenseEffect = StartCoroutine(ActivateDefenseShield());
+		fireStepsSpawning = StartCoroutine(SpawnFireSteps());
+
+	}
+
 	public override void Interrupt(){
-		if(fireEffect != null){
-			StopCoroutine(fireEffect);
-			fireEffect = null;
+		base.Interrupt();
+		if(fireStepsSpawning != null){
+			StopCoroutine(fireStepsSpawning);
+			fireStepsSpawning = null;
 		}
 	}
+
 	public void SpawnFire(Vector3 position){
 		GameObject spawn = Instantiate(fireSpawnObject, position, Quaternion.identity);
 		spawn.GetComponent<FireSpawnCollision>().Setup(playerNum, fireBurnTime);
 	}
+
 	IEnumerator SpawnFireSteps(){
 		int spawned = 0;
 		float timer = 0;
@@ -50,6 +64,19 @@ public class PlayerFireEffect : PlayerElementEffect {
 			spawned++;
 			yield return null;
 		}
-		fireEffect = null;
+		fireStepsSpawning = null;
+	}
+
+	protected override IEnumerator ActivateDefenseShield(){
+		defenseCollider.enabled = true;
+		defenseParticles.Play();
+		yield return new WaitForSeconds(buffDuration);
+		defenseParticles.Stop();
+		defenseCollider.enabled = false;
+		defenseEffect = null;
+		if(fireStepsSpawning != null){
+			StopCoroutine(fireStepsSpawning);
+			fireStepsSpawning = null;
+		}
 	}
 }

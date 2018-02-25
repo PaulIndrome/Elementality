@@ -8,7 +8,23 @@ public abstract class Projectile : MonoBehaviour {
 	protected Transform currentTarget;
 	protected Coroutine moveProjectile;
 
+    public float flightSpeed;
+    public float reorientSpeed;
+	public float reorientTime = 1.5f;
+
+    public ParticleSpawner shotProjectile;
     public Elements.Element projectileElement;
+
+    public virtual void OnTriggerEnter(Collider col){
+        //Debug.Log("Projectile from " + shotByPlayerNum + " to " + shotAtPlayerNum + " collided with " + col.gameObject.name);
+		PlayerMovement pm = col.GetComponent<PlayerMovement>();
+		if(pm != null){
+			StopCoroutine(moveProjectile);
+			Destroy(gameObject);
+		} else {
+			return;
+		}
+    }
 
     public virtual void Shoot(int shotByPlayer, PlayerMovement playerMov){
         if(playerMov != null && shotByPlayer == playerMov.playerNum) {
@@ -18,10 +34,10 @@ public abstract class Projectile : MonoBehaviour {
         shotByPlayerNum = shotByPlayer;
         shotAtPlayerNum = (playerMov != null) ? playerMov.playerNum : -1;
         currentTarget = (playerMov != null) ? playerMov.transform : null;
-        moveProjectile = StartProjectile();
+        moveProjectile = StartCoroutine(MoveProjectile());
 	}
 
-    public abstract Coroutine StartProjectile();
+    protected abstract IEnumerator MoveProjectile();
     
 
 }

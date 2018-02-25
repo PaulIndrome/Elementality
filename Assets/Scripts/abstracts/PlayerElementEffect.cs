@@ -5,13 +5,36 @@ using UnityEngine;
 public abstract class PlayerElementEffect : PlayerAction {
 	public Elements.Element element;
 
-	[SerializeField] PlayerPickup elementPickup;
-	[SerializeField] protected ParticleSpawner meleeParticle, rangedParticle;
-	[SerializeField] GameObject elementProjectile;
+	//[SerializeField] protected PlayerPickup elementPickup;
+	[SerializeField] protected ParticleSpawner meleeParticle, shotParticle;
+	[SerializeField] protected GameObject elementProjectile, defenseObject;
 
-	public abstract void Activate(PlayerPickup pickup);
+	protected float buffDuration;
+	protected PlayerElementHolder playerElementHolder;
+	protected Color playerColor;
+	protected ParticleSystem defenseParticles;
+	protected SphereCollider defenseCollider;
+	protected Coroutine defenseEffect;
 
-	public abstract void Interrupt();
+	public virtual void Start(){
+		playerElementHolder = GetComponent<PlayerElementHolder>();
+		playerColor = GetComponent<PlayerController>().playerColors[playerNum];
+
+		if(defenseObject != null){
+			defenseParticles = defenseObject.GetComponent<ParticleSystem>();
+			defenseCollider = defenseObject.GetComponent<SphereCollider>();
+			
+			var main = defenseParticles.main;
+			main.startColor = playerColor;
+			defenseParticles.Stop();
+			defenseCollider.enabled = false;
+			defenseObject.SetActive(true);
+		}
+	}
+
+	public abstract void SlotPickup(PlayerPickup pickup);
+
+	//public abstract void Interrupt();
 
 	public virtual void CastOffense(PlayerMovement target){
 		//play rangedParticle for "muzzleflash"
@@ -33,8 +56,23 @@ public abstract class PlayerElementEffect : PlayerAction {
 		return;
 	}
 
-	public virtual void CastDefense(){
-		Activate(elementPickup);
-		return;
+	public abstract void CastDefense();
+
+	public virtual void Interrupt(){
+		if(defenseEffect != null){
+			StopCoroutine(defenseEffect);
+			defenseEffect = null;
+			defenseParticles.Stop();
+			defenseCollider.enabled = false;
+		}
+	}
+	
+	protected virtual IEnumerator ActivateDefenseShield(){
+		defenseCollider.enabled = true;
+		defenseParticles.Play();
+		yield return new WaitForSeconds(buffDuration);
+		defenseParticles.Stop();
+		defenseCollider.enabled = false;
+		defenseEffect = null;
 	}
 }
