@@ -68,6 +68,10 @@ public class PlayerHealth : PlayerElementEffect {
 		currentHealth = 3;
 	}
 
+	public override void CastOffense(PlayerMovement[] targets){
+
+	}
+	
 	public override void CastDefense(){
 		return;
 	}

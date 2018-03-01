@@ -13,12 +13,17 @@ public class PlayerMovement : PlayerAction {
 	CharacterController m_characterController;
 	Vector3 m_playerDirectionNext, m_playerDirectionCurrent = Vector3.zero;
 	PlayerController m_playerController;
+	PlayerJump m_playerJump;
+
+	public AnimationCurve knockBackCurve;
+	public float knockBackRange, knockBackHeight, knockBackSpeed;
 
 	string horizontalMoveAxis, verticalMoveAxis;
 
     void Start () {
 		m_characterController = GetComponent<CharacterController>();
 		m_playerController = GetComponent<PlayerController>();
+		m_playerJump = GetComponent<PlayerJump>();
 	}
 	
 	void Update () {
@@ -76,6 +81,39 @@ public class PlayerMovement : PlayerAction {
 		}
 		m_movementSpeed = originalSpeed;
 		yield break;
+	}
+
+	public void Hit(bool melee, Vector3 hitFromPosition){
+		if(melee){
+			m_playerController.CanMove = false;
+			StartCoroutine(KnockBack((transform.position - hitFromPosition).normalized));
+		}
+	}
+
+	IEnumerator KnockBack(Vector3 flyDirection){
+		float x = 0;
+		Vector3 originalPosition = transform.position;
+		Vector3 finalPosition = originalPosition + (flyDirection * knockBackRange);
+		Debug.DrawRay(originalPosition, finalPosition);
+
+		Vector3 xzMovement = finalPosition - originalPosition;
+		xzMovement.y = 0;
+		Debug.Log(xzMovement.magnitude);
+
+		float yOriginal = originalPosition.y;
+		m_playerJump.flying = true;
+		while(x <= 1){
+			Debug.DrawRay(originalPosition, finalPosition);
+			Vector3 nextMove = (xzMovement * Time.deltaTime * knockBackSpeed);
+			m_characterController.Move(nextMove);
+			m_characterController.Move(new Vector3(0, knockBackCurve.Evaluate(x) * knockBackHeight, 0));
+			//transform.position += flyDirection * x * knockBackRange * Time.deltaTime;
+			//transform.position += new Vector3(0, knockBackCurve.Evaluate(x) * knockBackHeight, 0);
+			x += Time.deltaTime * knockBackSpeed;
+			yield return null;
+		}
+		m_playerJump.flying = false;
+		m_playerController.CanMove = true;
 	}
 
 }

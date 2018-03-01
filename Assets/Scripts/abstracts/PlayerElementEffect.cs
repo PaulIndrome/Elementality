@@ -46,11 +46,9 @@ public abstract class PlayerElementEffect : PlayerAction {
 
 	public virtual void CastOffense(PlayerMovement[] targets){
 		meleeParticle.SpawnParticleSystem(transform);
-		Projectile p;
 		foreach(PlayerMovement pm in targets){
 			if(pm.playerNum != playerNum){
-				p = Instantiate(elementProjectile, transform.position + transform.forward, transform.rotation).GetComponent<Projectile>();
-				p.Shoot(playerNum, pm);
+				//hit player pm
 			}
 		}
 		return;

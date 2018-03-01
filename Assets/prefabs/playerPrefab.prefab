@@ -303,7 +303,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1160782960322750}
   m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: -15.4, y: 1.35, z: -17.3}
+  m_LocalPosition: {x: -12.1, y: 1.35, z: -12.8}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4034176692548122}
@@ -564,6 +564,7 @@ MonoBehaviour:
   m_jumpSpeed: 0.69
   m_jumpApexTime: 0.45
   isGroundedInspectorCheck: 1
+  flying: 0
 --- !u!114 &114669947598278532
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -605,7 +606,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1024
   meleeRange: 5
-  rangedRange: 16
+  rangedRange: 20
   rangedConeAngle: 30
 --- !u!114 &114683990963415750
 MonoBehaviour:
@@ -636,6 +637,33 @@ MonoBehaviour:
   m_dodgeSpeedReduction: 0.35
   m_accTime: 1.5
   m_decTime: 1
+  knockBackCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: -1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  knockBackRange: 10
+  knockBackHeight: 2
+  knockBackSpeed: 3
 --- !u!114 &114765208743460784
 MonoBehaviour:
   m_ObjectHideFlags: 1

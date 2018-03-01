@@ -16,7 +16,6 @@ public abstract class Projectile : MonoBehaviour {
     public Elements.Element projectileElement;
 
     public virtual void OnTriggerEnter(Collider col){
-        //Debug.Log("Projectile from " + shotByPlayerNum + " to " + shotAtPlayerNum + " collided with " + col.gameObject.name);
 		PlayerMovement pm = col.GetComponent<PlayerMovement>();
 		if(pm != null){
 			StopCoroutine(moveProjectile);
@@ -38,6 +37,5 @@ public abstract class Projectile : MonoBehaviour {
 	}
 
     protected abstract IEnumerator MoveProjectile();
-    
 
 }

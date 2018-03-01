@@ -31,7 +31,7 @@ public class PlayerDodge : PlayerAction {
 		m_dodgeDirection.x = Input.GetAxis(horizontalDodgeAxis);
 		m_dodgeDirection.z = Input.GetAxis(verticalDodgeAxis);
 
-		if(!m_playerController.IsDodging && m_dodgeDirection.magnitude > m_stickDeadZone){
+		if(!m_playerController.IsDodging && m_dodgeDirection.magnitude > m_stickDeadZone && m_playerController.CanMove){
 			m_dodgeDirectionTemp = m_dodgeDirection.normalized;
 			m_playerController.IsDodging = true;
 		} 

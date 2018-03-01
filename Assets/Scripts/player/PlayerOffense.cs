@@ -149,7 +149,7 @@ public class PlayerOffense : PlayerAction {
 		}
 	}
 	IEnumerator StartOffenseCooldown(){
-		yield return new WaitUntil(() => Input.GetAxis("Offensive" + playerNum) < 0.25f);
+		yield return new WaitUntil(() => (Input.GetAxis("Offensive" + playerNum) < 0.2f && Input.GetAxis("Offensive" + playerNum) > -0.2f));
 		offenseCoolingDown = false;
 	}
 	void OnDrawGizmosSelected(){

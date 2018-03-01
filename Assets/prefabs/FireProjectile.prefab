@@ -142,10 +142,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3f9b57bdfa83464a8beea7ddb55cac0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  flightSpeed: 15
+  reorientSpeed: 11
+  reorientTime: 2
+  shotProjectile: {fileID: 0}
   projectileElement: 1
-  reorientSpeed: 10
-  reorientTime: 1.5
-  flightSpeed: 12.5
 --- !u!135 &135042249885344564
 SphereCollider:
   m_ObjectHideFlags: 1
