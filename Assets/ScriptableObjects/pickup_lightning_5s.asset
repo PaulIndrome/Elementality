@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Name: pickup_lightning_5s
   m_EditorClassIdentifier: 
   element: 2
+  buffDuration: 5
   playActivationParticles: 0
   activationParticles: {fileID: 0}
-  buffTime: 5
+  movementSpeedReduction: 0.5
+  dodgeDistanceReduction: 0.5

@@ -17,7 +17,7 @@ public class PlayerElementHolder : PlayerAction{
 
         foreach(PlayerElementEffect pE in elementEffects){
             if(pE.element == pickup.element){
-                pE.Activate(pickup);
+                pE.SlotPickup(pickup);
             } else {
                 continue;
             }
@@ -32,7 +32,7 @@ public class PlayerElementHolder : PlayerAction{
 
         foreach(PlayerElementEffect pE in elementEffects){
             if(pE.element == healthPickup.element){
-                pE.Activate(healthPickup);
+                pE.SlotPickup(healthPickup);
             } else {
                 continue;
             }

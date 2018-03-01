@@ -10,8 +10,6 @@ public class PlayerHealth : PlayerElementEffect {
 	[Range(0,3)]
 	[SerializeField] private int healthCurrent;
 	[SerializeField] private float playerRespawnTime;
-
-	PlayerElementHolder playerElementHolder;
 	Vector3 oldPosition;
 	Coroutine playerTimeOut;
 
@@ -19,25 +17,31 @@ public class PlayerHealth : PlayerElementEffect {
 		get { return healthCurrent;}
 		set {
 			if(value < 0) return;
-			Debug.Log("a " + healthCurrent);
+			//Debug.Log("a " + healthCurrent);
 			healthCurrent = value;
-			Debug.Log("b " + healthCurrent);
+			//Debug.Log("b " + healthCurrent);
 			healthCurrent = Mathf.Clamp(healthCurrent, 0, 3);
-			Debug.Log("c " + healthCurrent);
+			//Debug.Log("c " + healthCurrent);
 			if(healthChangeEvent != null)
 				healthChangeEvent(healthCurrent);
 		}
 	}
 
-	void Start(){
-		playerElementHolder = GetComponent<PlayerElementHolder>();
+	public override void Start(){
+		base.Start();
 		healthChangeEvent += EvaluateHealth;
 	}
 
-	public override void Activate(PlayerPickup pickup){
+	public override void SlotPickup(PlayerPickup pickup){
 		HealthPickup hp = pickup as HealthPickup;
 		
-		currentHealth += hp.healthImpact;
+		if(hp != null) {
+			currentHealth += hp.healthImpact;
+			if(hp.healthImpact < 0){
+				meleeParticle.SpawnParticleSystem(transform);
+			}
+		}
+		
 	}
 
 	public override void Interrupt(){
@@ -48,18 +52,28 @@ public class PlayerHealth : PlayerElementEffect {
 
 	public void EvaluateHealth(int newVal){
 		if(newVal <= 0){
+			TargetGroupControl.ToggleWeightOfPlayer(playerNum, false);
 			playerTimeOut = StartCoroutine(PlayerTimeOut());
 		}
 	}
 
 	public void Respawn(){
 		transform.position = oldPosition + Vector3.up;
+		TargetGroupControl.ToggleWeightOfPlayer(playerNum, true);
 
 		foreach(PlayerAction pA in GetComponents<PlayerAction>()){
 			pA.enabled = true;
 		}
 
 		currentHealth = 3;
+	}
+
+	public override void CastOffense(PlayerMovement[] targets){
+
+	}
+	
+	public override void CastDefense(){
+		return;
 	}
 
 	IEnumerator PlayerTimeOut(){
@@ -83,6 +97,4 @@ public class PlayerHealth : PlayerElementEffect {
 		Respawn();
 		playerTimeOut = null;
 	}
-
-
 }

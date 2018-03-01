@@ -15,6 +15,7 @@ public class PlayerJump : PlayerAction {
 	public float m_jumpApexTime;
 
 	public bool isGroundedInspectorCheck;
+	[HideInInspector] public bool flying;
 
 	string playerJumpButton;
 
@@ -36,7 +37,7 @@ public class PlayerJump : PlayerAction {
 			StartCoroutine(Jump());
 		}
 
-		if(!characterController.isGrounded){
+		if(!characterController.isGrounded && !flying){
 			playerController.IsGrounded = false;
 			gravityDirection.y -= m_playerGravity * Time.deltaTime;
 			characterController.Move(gravityDirection * m_playerGravity);

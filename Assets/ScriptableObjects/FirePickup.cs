@@ -9,8 +9,4 @@ public class FirePickup : PlayerPickup {
     [Tooltip("The fire passive will always spawn at least this amount of fires")]	
     public int effectAmount;
 
-    public override void Apply(PlayerElementHolder playerElementHolder){
-        base.Apply(playerElementHolder);
-    }
-
 }

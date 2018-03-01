@@ -22,7 +22,6 @@ public class PowerUpCollect : MonoBehaviour {
 			pv.Setup();
 			pv.SetPickupActive(false);
 		}
-		ChangeActiveElement();
 		cycle = StartCoroutine(CyclePickup());
 	}
 	
@@ -57,6 +56,11 @@ public class PowerUpCollect : MonoBehaviour {
 	}
 
 	IEnumerator CyclePickup(){
+		if(respawn != null) {
+			StopCoroutine(respawn);
+			respawn = null;
+		}
+		ChangeActiveElement();
 		while(gameObject.activeSelf){
 			float cycleTime = cycleTimeRange.Random();
 			yield return new WaitForSeconds(cycleTime - 4f);
@@ -67,7 +71,10 @@ public class PowerUpCollect : MonoBehaviour {
 	}
 
 	IEnumerator RespawnTimer(){
-		yield return new WaitForSeconds(respawnTimeRange.Random());
+		float respawnTime = respawnTimeRange.Random();
+		yield return new WaitForSeconds(respawnTime - 4f);
+		changeImminentPS.Play();
+		yield return new WaitForSeconds(4f);
 		cycle = StartCoroutine(CyclePickup());
 		respawn = null;
 	}

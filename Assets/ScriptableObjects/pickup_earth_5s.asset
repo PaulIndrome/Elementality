@@ -12,7 +12,6 @@ MonoBehaviour:
   m_Name: pickup_earth_5s
   m_EditorClassIdentifier: 
   element: 3
+  buffDuration: 5
   playActivationParticles: 0
   activationParticles: {fileID: 0}
-  fullInvulnerability: 0
-  buffTime: 5

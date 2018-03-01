@@ -4,13 +4,17 @@ using UnityEngine;
 using UnityEditor;
 
 [CustomEditor(typeof(PlayerHealth))]
-public class PlayerHealthInspector : Editor {
-	PlayerHealth pH;
+public class PlayerHealthInspector : PlayerElementEffectInspector {
 
+	PlayerHealth pH;
 	public Texture2D redTex, greenTex, whiteTex, clickedTex;
 	public GUIStyle red, green, white;
 
-	void OnEnable(){
+	SerializedProperty playerNumProp, currentHealthProp, playerRespawnProp, meleeParticleProp;
+
+	public override void OnEnable(){
+		base.OnEnable();
+		pH = pee as PlayerHealth;
 		red = new GUIStyle();
 		green = new GUIStyle();
 		white = new GUIStyle();
@@ -28,10 +32,14 @@ public class PlayerHealthInspector : Editor {
 
 		red.margin = green.margin = white.margin = new RectOffset(20,30,10,10);
 
-		pH = (PlayerHealth) target;
+		playerNumProp = serializedObject.FindProperty("playerNum");
+		currentHealthProp = serializedObject.FindProperty("healthCurrent");
+		playerRespawnProp = serializedObject.FindProperty("playerRespawnTime");
+		meleeParticleProp = serializedObject.FindProperty("meleeParticle");
 	}
 
 	public override void OnInspectorGUI(){
+		serializedObject.Update();
 
 		GUILayout.BeginHorizontal();
 		if(GUILayout.Button("", white, GUILayout.MaxHeight(20f), GUILayout.MaxWidth(20f))){
@@ -41,20 +49,29 @@ public class PlayerHealthInspector : Editor {
 			GUILayout.BeginVertical();
 			if(i < pH.currentHealth){
 				if(GUILayout.Button(greenTex, green, GUILayout.MinHeight(20f))){
-					pH.currentHealth += i+1;	
+					pH.currentHealth = i+1;	
 				}
 			} else {
 				if(GUILayout.Button(redTex, red, GUILayout.MinHeight(20f))){
-					pH.currentHealth += i+1;
+					pH.currentHealth = i+1;
 				}
 			}
 			GUILayout.EndVertical();
 		}
 		GUILayout.EndHorizontal();
 
-		GUI.color = Color.white;
+		DrawInspector(false);
 
-		DrawDefaultInspector();
+		//GUI.backgroundColor = GUI.contentColor = GUI.color = new Color(255f/255f,202f/255f,202f/255f);
 
+		EditorGUILayout.LabelField("Player Number: " + playerNumProp.intValue);
+		pH.element = (Elements.Element) EditorGUILayout.EnumPopup("Element", pH.element);
+		EditorGUILayout.IntSlider(currentHealthProp, 0, 3, new GUIContent("Current Health"));
+		EditorGUILayout.Slider(playerRespawnProp, 1, 10, new GUIContent("Respawn Time"));
+		EditorGUILayout.ObjectField(meleeParticleProp, typeof(ParticleSpawner), new GUIContent("get-hit particles"));
+
+		serializedObject.ApplyModifiedProperties();
 	}
+
+
 }
