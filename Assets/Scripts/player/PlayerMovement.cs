@@ -14,13 +14,16 @@ public class PlayerMovement : PlayerAction {
 	Vector3 m_playerDirectionNext, m_playerDirectionCurrent = Vector3.zero;
 	PlayerController m_playerController;
 	PlayerJump m_playerJump;
+	Animator playerAnimator;
 
 	public AnimationCurve knockBackCurve;
 	public float knockBackRange, knockBackHeight, knockBackSpeed;
 
 	string horizontalMoveAxis, verticalMoveAxis;
+	bool idleRunning = false;
 
     void Start () {
+		playerAnimator = GetComponentInChildren<Animator>();
 		m_characterController = GetComponent<CharacterController>();
 		m_playerController = GetComponent<PlayerController>();
 		m_playerJump = GetComponent<PlayerJump>();
@@ -32,10 +35,19 @@ public class PlayerMovement : PlayerAction {
 			m_playerDirectionNext.x = Input.GetAxis(horizontalMoveAxis);
 			m_playerDirectionNext.z = Input.GetAxis(verticalMoveAxis);
 
-			if(m_playerDirectionNext.magnitude > 0.15f){
+			float inputMagnituede = m_playerDirectionNext.magnitude;
+
+			if(inputMagnituede > 0.15f){
+				idleRunning = false;
+				playerAnimator.SetFloat("speed", inputMagnituede);
 				MovementAcceleration();
 			} else {
-				MovementDeceleration();
+				if(inputMagnituede < 0.05f && !idleRunning){
+					idleRunning = true;
+					playerAnimator.SetFloat("idleBlend", Random.Range(0,3));
+				} else {
+					MovementDeceleration();
+				}
 			}
 		}
 	}
@@ -44,6 +56,7 @@ public class PlayerMovement : PlayerAction {
 		m_accTimeElapsed = Mathf.Clamp(m_accTimeElapsed + Time.deltaTime, 0, m_accTime);
 
 		Vector3 playerMoveSpeedActual = m_playerDirectionNext * Time.deltaTime * m_movementSpeed;
+		Debug.Log(playerMoveSpeedActual);
 		
 		Vector3 moveNext = Vector3.Lerp(m_playerDirectionCurrent, playerMoveSpeedActual, m_accTimeElapsed / m_accTime);
 		transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(m_playerDirectionNext, Vector3.up), (m_accTimeElapsed / m_accTime) * m_turnSpeed);
@@ -55,6 +68,7 @@ public class PlayerMovement : PlayerAction {
 	public void MovementDeceleration(){
 		m_decTimeElapsed = Mathf.Clamp(m_decTimeElapsed + Time.deltaTime, 0, m_decTime);
 		Vector3 moveNext = Vector3.Lerp(m_playerDirectionCurrent, Vector3.zero, m_decTimeElapsed / m_decTime);
+		playerAnimator.SetFloat("speed", moveNext.magnitude);
 		m_characterController.Move(moveNext);
 		m_playerDirectionCurrent = moveNext;
 		m_accTimeElapsed = 0f;

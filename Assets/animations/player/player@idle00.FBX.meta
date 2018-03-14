@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: f9e90313a1045a94b965c263716a8c0c
+guid: e2dd4b5ce43e98a49b9b87ca2c544d86
 ModelImporter:
   serializedVersion: 22
   fileIDToRecycleName:
@@ -129,7 +129,7 @@ ModelImporter:
     4300044: Base HumanLLegCalf
     4300046: Base HumanLLegFoot
     4300048: Base HumanLLegDigit11
-    7400000: run
+    7400000: idle00
     9500000: //RootNode
   externalObjects: {}
   materials:
@@ -160,7 +160,7 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: run
+      name: idle00
       takeName: Take 001
       firstFrame: 0
       lastFrame: 100
@@ -195,8 +195,8 @@ ModelImporter:
     addColliders: 0
     importVisibility: 1
     importBlendShapes: 1
-    importCameras: 1
-    importLights: 1
+    importCameras: 0
+    importLights: 0
     swapUVChannels: 0
     generateSecondaryUV: 0
     useFileUnits: 1
