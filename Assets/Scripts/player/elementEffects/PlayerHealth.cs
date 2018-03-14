@@ -16,12 +16,9 @@ public class PlayerHealth : PlayerElementEffect {
 	public int currentHealth {
 		get { return healthCurrent;}
 		set {
-			if(value < 0) return;
-			//Debug.Log("a " + healthCurrent);
+			if(value == 0) return;
 			healthCurrent = value;
-			//Debug.Log("b " + healthCurrent);
 			healthCurrent = Mathf.Clamp(healthCurrent, 0, 3);
-			//Debug.Log("c " + healthCurrent);
 			if(healthChangeEvent != null)
 				healthChangeEvent(healthCurrent);
 		}

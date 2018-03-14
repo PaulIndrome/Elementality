@@ -13,6 +13,7 @@ public class PlayerMovement : PlayerAction {
 	CharacterController m_characterController;
 	Vector3 m_playerDirectionNext, m_playerDirectionCurrent = Vector3.zero;
 	PlayerController m_playerController;
+	PlayerHealth playerHealth;
 	PlayerJump m_playerJump;
 	Animator playerAnimator;
 

@@ -12,11 +12,17 @@ public class PlayerElementHolder : PlayerAction{
     }
 
     public void SlotElement(PlayerPickup pickup){
-        //this means that a health pickup (both damage and healing) clears the element
-        currentElement = pickup.element;
-
         foreach(PlayerElementEffect pE in elementEffects){
             if(pE.element == pickup.element){
+                if(pickup.element == Elements.Element.None){
+                    HealthPickup hp = pickup as HealthPickup;
+                    if(hp.healthImpact >= 1){
+                        // slotted element is only set to none when healed
+                        currentElement = hp.element;
+                    }
+                } else {
+                    currentElement = pickup.element;
+                }
                 pE.SlotPickup(pickup);
             } else {
                 continue;
@@ -24,19 +30,19 @@ public class PlayerElementHolder : PlayerAction{
         }
     }
 
-    public void SlotElement(HealthPickup healthPickup){
-        // slotted element is only set to none when healed
-        if(healthPickup.healthImpact >= 1){
-            currentElement = healthPickup.element;
-        } 
-
-        foreach(PlayerElementEffect pE in elementEffects){
-            if(pE.element == healthPickup.element){
-                pE.SlotPickup(healthPickup);
-            } else {
-                continue;
-            }
-        }
-    }
+    //public void SlotElement(HealthPickup healthPickup){
+    //    
+    //    if(healthPickup.healthImpact >= 1){
+    //        currentElement = healthPickup.element;
+    //    } 
+//
+    //    foreach(PlayerElementEffect pE in elementEffects){
+    //        if(pE.element == healthPickup.element){
+    //            pE.SlotPickup(healthPickup);
+    //        } else {
+    //            continue;
+    //        }
+    //    }
+    //}
 
 }

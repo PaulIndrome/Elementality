@@ -48,7 +48,7 @@ public abstract class PlayerElementEffect : PlayerAction {
 		meleeParticle.SpawnParticleSystem(transform);
 		foreach(PlayerMovement pm in targets){
 			if(pm.playerNum != playerNum){
-				//hit player pm
+				pm.Hit(true, transform.position);
 			}
 		}
 		return;

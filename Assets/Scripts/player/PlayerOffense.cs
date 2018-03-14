@@ -5,12 +5,9 @@ using UnityEngine;
 public class PlayerOffense : PlayerAction {
 
 	public delegate void OffenseRangeCheckDelegate(int pNum, float range, Transform initiateTransform, List<Transform> list);
-	public static OffenseRangeCheckDelegate offenseRangeCheckEvent, offenseMeleeCheckEvent;
+	public static event OffenseRangeCheckDelegate offenseRangeCheckEvent, offenseMeleeCheckEvent;
 
 	PlayerElementHolder playerElementHolder;
-	[SerializeField] private GameObject fireProjectile;
-	[SerializeField] private GameObject lightningProjectile;
-	[SerializeField] private GameObject earthProjectile;
 	[SerializeField] LayerMask playerLayer;
 	[SerializeField] float meleeRange = 0, rangedRange = 0, rangedConeAngle = 0;
 
@@ -21,6 +18,7 @@ public class PlayerOffense : PlayerAction {
 	Collider[] colliders;
 
 	bool offenseCoolingDown = false;
+	string offenseAxis;
 
 	void Start () {
 		earthElementEffect = GetComponent<PlayerEarthEffect>();
@@ -31,8 +29,14 @@ public class PlayerOffense : PlayerAction {
 		offenseRangeCheckEvent += OffenseRangeCheck;
 		offenseMeleeCheckEvent += OffenseMeleeCheck;
 	}
+
+	public override void SetPlayerNum(int pNum){
+		base.SetPlayerNum(pNum);
+		offenseAxis = "Offensive" + playerNum;
+	}
+
 	void Update () {
-		if((Input.GetAxis("Offensive" + playerNum) >= 0.5f || Input.GetAxis("Offensive" + playerNum) <= -0.5f) && !offenseCoolingDown){
+		if((Input.GetAxis(offenseAxis) >= 0.5f || Input.GetAxis(offenseAxis) <= -0.5f) && !offenseCoolingDown){
 			offenseCoolingDown = true;
 			StartCoroutine(StartOffenseCooldown());
 			if(playerElementHolder.currentElement != Elements.Element.None){
@@ -149,7 +153,7 @@ public class PlayerOffense : PlayerAction {
 		}
 	}
 	IEnumerator StartOffenseCooldown(){
-		yield return new WaitUntil(() => (Input.GetAxis("Offensive" + playerNum) < 0.2f && Input.GetAxis("Offensive" + playerNum) > -0.2f));
+		yield return new WaitUntil(() => (Input.GetAxis(offenseAxis) < 0.2f && Input.GetAxis(offenseAxis) > -0.2f));
 		offenseCoolingDown = false;
 	}
 	void OnDrawGizmosSelected(){

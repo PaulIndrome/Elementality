@@ -9,6 +9,7 @@ public class PlayerDefense : PlayerAction {
 	PlayerElementEffect fireElementEffect;
 	PlayerElementEffect lightningElementEffect;
 	bool defenseCoolingDown = false;
+	string defenseButton;
 
 	// Use this for initialization
 	void Start () {
@@ -18,10 +19,13 @@ public class PlayerDefense : PlayerAction {
 		
 		playerElementHolder = GetComponent<PlayerElementHolder>();
 	}
-	
+	public override void SetPlayerNum(int pNum){
+		base.SetPlayerNum(pNum);
+		defenseButton = "Defensive" + playerNum;
+	}
 	// Update is called once per frame
 	void Update () {
-		if(Input.GetButtonDown("Defensive" + playerNum) && !defenseCoolingDown){
+		if(Input.GetButtonDown(defenseButton) && !defenseCoolingDown){
 			defenseCoolingDown = true;
 			StartCoroutine(StartDefenseCooldown());
 			if(playerElementHolder.currentElement != Elements.Element.None){
@@ -47,7 +51,7 @@ public class PlayerDefense : PlayerAction {
 	}
 
 	IEnumerator StartDefenseCooldown(){
-		yield return new WaitUntil(() => Input.GetButtonUp("Defensive" + playerNum));
+		yield return new WaitUntil(() => Input.GetButtonUp(defenseButton));
 		defenseCoolingDown = false;
 	}
 }
