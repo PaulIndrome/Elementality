@@ -6,9 +6,9 @@ Material:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: playerMat
+  m_Name: floorMaterial00
   m_Shader: {fileID: 4800000, guid: 611c7b00584177b498f50ed053424d39, type: 3}
-  m_ShaderKeywords: BOOLEAN_527A7DE7_ON
+  m_ShaderKeywords: BOOLEAN_527A7DE7_ON _GLOSSINESS_FROM_BASE_ALPHA _SPECULAR_COLOR
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -31,6 +31,10 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BumpMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Control:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -58,6 +62,22 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _Normal0:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Normal1:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Normal2:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Normal3:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _OcclusionMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -70,12 +90,32 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _Splat0:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Splat1:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Splat2:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Splat3:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ToonShade:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     m_Floats:
     - Boolean_527A7DE7: 1
-    - Vector1_59C9267F: -0.25
-    - Vector1_787A5096: 1
+    - Vector1_59C9267F: 0
+    - Vector1_787A5096: -0.946
     - Vector1_C3DAA4A4: 1
-    - Vector1_E8C2B5A3: 1.71
+    - Vector1_E8C2B5A3: 1
     - _AlphaClip: 0
     - _Blend: 0
     - _BumpScale: 1
@@ -85,12 +125,22 @@ Material:
     - _DstBlend: 0
     - _GlossMapScale: 1
     - _Glossiness: 0.5
+    - _GlossinessSource: 0
     - _GlossyReflections: 1
     - _Metallic: 0
-    - _Mode: 0
+    - _Metallic0: 0
+    - _Metallic1: 0
+    - _Metallic2: 0
+    - _Metallic3: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.02
+    - _Shininess: 1
+    - _Smoothness0: 1
+    - _Smoothness1: 1
+    - _Smoothness2: 1
+    - _Smoothness3: 1
     - _SmoothnessTextureChannel: 0
+    - _SpecSource: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _Surface: 0
@@ -98,11 +148,11 @@ Material:
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
-    - Color_116CD5D2: {r: 1, g: 0.61558086, b: 0, a: 1}
-    - Color_A0D2F3C8: {r: 1, g: 0.5686275, b: 0, a: 1}
-    - Vector2_14E1A02A: {r: 2, g: 0, b: 0, a: 0}
-    - Vector2_FD379EE2: {r: 2, g: 2, b: 0, a: 0}
+    - Color_116CD5D2: {r: 0, g: 0.95852566, b: 1, a: 1}
+    - Color_A0D2F3C8: {r: 0.8207547, g: 0.59304595, b: 0.5149074, a: 1}
+    - Vector2_14E1A02A: {r: 0, g: 0, b: 0, a: 0}
+    - Vector2_FD379EE2: {r: 12, g: 12, b: 0, a: 0}
     - Vector3_E6E825BE: {r: 0, g: 1, b: 0, a: 0}
-    - _Color: {r: 0.6603774, g: 0.48905307, b: 0.48905307, a: 1}
+    - _Color: {r: 0.8490566, g: 0.8490566, b: 0.8490566, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
