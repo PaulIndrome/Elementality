@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: c2ca3d179fc1b834d9681449fd4f7ef3
+guid: 41a1f84e2c9403642b3d09fe497529a9
 ModelImporter:
   serializedVersion: 22
   fileIDToRecycleName:
@@ -28,8 +28,8 @@ ModelImporter:
     100044: Base HumanSpine2
     100046: Base HumanSpine3
     100048: Base HumanSpine4
-    100050: playerGeo
-    100052: //RootNode
+    100050: //RootNode
+    100052: playerGeo
     400000: Base HumanHead
     400002: Base HumanLCollarbone
     400004: Base HumanLForearm
@@ -55,8 +55,8 @@ ModelImporter:
     400044: Base HumanSpine2
     400046: Base HumanSpine3
     400048: Base HumanSpine4
-    400050: playerGeo
-    400052: //RootNode
+    400050: //RootNode
+    400052: playerGeo
     2100000: No Name
     2300000: Base HumanHead
     2300002: Base HumanLCollarbone
@@ -134,6 +134,7 @@ ModelImporter:
     4300046: Base HumanLLegFoot
     4300048: Base HumanLLegDigit11
     4300050: playerGeo
+    7400000: idle00
     9500000: //RootNode
     13700000: playerGeo
   externalObjects: {}
@@ -163,7 +164,35 @@ ModelImporter:
     animationWrapMode: 0
     extraExposedTransformPaths: []
     extraUserProperties: []
-    clipAnimations: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: idle00
+      takeName: Take 001
+      firstFrame: 0
+      lastFrame: 100
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
     isReadable: 1
   meshes:
     lODScreenPercentages: []
@@ -171,7 +200,7 @@ ModelImporter:
     meshCompression: 0
     addColliders: 0
     importVisibility: 0
-    importBlendShapes: 1
+    importBlendShapes: 0
     importCameras: 0
     importLights: 0
     swapUVChannels: 0
@@ -210,8 +239,7 @@ ModelImporter:
     hasTranslationDoF: 0
     hasExtraRoot: 0
     skeletonHasParents: 1
-  lastHumanDescriptionAvatarSource: {fileID: 9000000, guid: 1890292d70d992945bb378db4890854e,
-    type: 3}
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
   animationType: 2
   humanoidOversampling: 1
   additionalBone: 0
