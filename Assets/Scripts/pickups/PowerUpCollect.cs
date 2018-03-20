@@ -14,8 +14,13 @@ public class PowerUpCollect : MonoBehaviour {
 	Coroutine cycle, respawn;
 	[SerializeField] private ParticleSystem changeImminentPS;
 	[SerializeField] private List<Elements.Element> excludedElements;
+	public Material pedestalMat;
 
 	void Start(){
+
+		pedestalMat = GetComponent<MeshRenderer>().material;
+		//pedestalMat.shader = Shader.Find("graphs/maskEmissionProgress");
+
 		lastTwoElements = new Elements.Element[]{Elements.Element.None, Elements.Element.None};
 		pickupVisuals = GetComponentsInChildren<PickupVisuals>();
 		foreach(PickupVisuals pv in pickupVisuals){
@@ -23,6 +28,12 @@ public class PowerUpCollect : MonoBehaviour {
 			pv.SetPickupActive(false);
 		}
 		cycle = StartCoroutine(CyclePickup());
+	}
+
+	public void Update(){
+		float loadAmount = (Mathf.Sin(Time.time / 1.5f) + 1) / 2;
+		Debug.Log(pedestalMat.HasProperty("loadAmount") + " " + loadAmount);
+		pedestalMat.SetFloat("loadAmount", loadAmount);
 	}
 	
 	public void ChangeActiveElement(){
