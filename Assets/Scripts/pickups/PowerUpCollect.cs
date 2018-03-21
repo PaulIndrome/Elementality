@@ -15,6 +15,7 @@ public class PowerUpCollect : MonoBehaviour {
 	[SerializeField] private ParticleSystem changeImminentPS;
 	[SerializeField] private List<Elements.Element> excludedElements;
 	public Material pedestalMat;
+	float loadAmount = 0f;
 
 	void Start(){
 
@@ -27,13 +28,11 @@ public class PowerUpCollect : MonoBehaviour {
 			pv.Setup();
 			pv.SetPickupActive(false);
 		}
-		cycle = StartCoroutine(CyclePickup());
+		cycle = StartCoroutine(CyclePickup2());
 	}
 
 	public void Update(){
-		float loadAmount = (Mathf.Sin(Time.time / 1.5f) + 1) / 2;
-		Debug.Log(pedestalMat.HasProperty("loadAmount") + " " + loadAmount);
-		pedestalMat.SetFloat("loadAmount", loadAmount);
+		
 	}
 	
 	public void ChangeActiveElement(){
@@ -62,11 +61,11 @@ public class PowerUpCollect : MonoBehaviour {
 	public void PickupCollected(){
 		StopCoroutine(cycle);
 		cycle = null;
-		respawn = StartCoroutine(RespawnTimer());
+		respawn = StartCoroutine(RespawnTimer2());
 		changeImminentPS.Stop();
 	}
 
-	IEnumerator CyclePickup(){
+	/*IEnumerator CyclePickup(){
 		if(respawn != null) {
 			StopCoroutine(respawn);
 			respawn = null;
@@ -79,14 +78,50 @@ public class PowerUpCollect : MonoBehaviour {
 			yield return new WaitForSeconds(4f);
 			ChangeActiveElement();
 		}
+	}*/
+
+	IEnumerator CyclePickup2(){
+		if(respawn != null) {
+			StopCoroutine(respawn);
+			respawn = null;
+		}
+		ChangeActiveElement();
+		while(gameObject.activeSelf){
+			loadAmount = 1f;
+			float cycleTime = cycleTimeRange.Random();
+			for(float t = 0; t <= cycleTime; t = t + Time.deltaTime){
+				loadAmount = 1 - (t / cycleTime);
+				pedestalMat.SetFloat("Vector1_A8323E03", loadAmount);
+				yield return null;
+			}
+			ChangeActiveElement();
+			yield return null;
+		}
+
 	}
 
-	IEnumerator RespawnTimer(){
+	/*IEnumerator RespawnTimer(){
 		float respawnTime = respawnTimeRange.Random();
 		yield return new WaitForSeconds(respawnTime - 4f);
 		changeImminentPS.Play();
 		yield return new WaitForSeconds(4f);
 		cycle = StartCoroutine(CyclePickup());
+		respawn = null;
+	}*/
+
+	IEnumerator RespawnTimer2(){
+		if(cycle != null) {
+			StopCoroutine(cycle);
+			cycle = null;
+		}
+		float respawnTime = respawnTimeRange.Random();
+		loadAmount = 0f;
+		for(float t = 0; t <= respawnTime; t = t + Time.deltaTime){
+			loadAmount = t / respawnTime;
+			pedestalMat.SetFloat("Vector1_A8323E03", loadAmount);
+			yield return null;
+		}
+		cycle = StartCoroutine(CyclePickup2());
 		respawn = null;
 	}
 
