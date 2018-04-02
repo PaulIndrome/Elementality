@@ -10,7 +10,6 @@ public class PlayerLightningEffect : PlayerElementEffect{
 	PlayerMovement playerMovement;
 	PlayerDodge playerDodge;
 	float originalMoveSpeed, originalDodgeSpeed, originalDodgeDistance;
-	float buffTime;
 
 	#region lightning variables
 	public delegate void lightningBuffDelegate(int pNum, bool startEnd);
@@ -60,7 +59,7 @@ public class PlayerLightningEffect : PlayerElementEffect{
 	}
 
 	public override void CastDefense(){
-		buffTime = elementPickup.buffDuration;
+		buffDuration = elementPickup.buffDuration;
 		lightningSpeedReduction = elementPickup.movementSpeedReduction;
 		lightningDistanceReduction = elementPickup.dodgeDistanceReduction;
 
@@ -82,7 +81,7 @@ public class PlayerLightningEffect : PlayerElementEffect{
 					if(lightningBuffTimer != null || lightningBuffActive) // I start a new localbufftimer and keep my speed or get it back for thiiiiiiis many seconds!
 						StopCoroutine(lightningBuffTimer);
 					SlowDownPlayer(false);
-					lightningBuffTimer = StartCoroutine(LightningBuffTimer(buffTime));
+					lightningBuffTimer = StartCoroutine(LightningBuffTimer(buffDuration));
 					speedUpParticles.SetActive(true);
 					//mainModule.startColor = colors[1];
 					return;
@@ -133,9 +132,11 @@ public class PlayerLightningEffect : PlayerElementEffect{
 		lightningBuffEvent(playerMovement.playerNum, false);
 	}
 	IEnumerator LightningBuffTimer(float buffTime){
+		Debug.Log("LightningBuff activated for " + buffTime + " seconds");
 		lightningBuffActive = true;
 		yield return new WaitForSeconds(buffTime);
 		EndLightningBuff();
+		Debug.Log("LightningBuff deactivated");
 	}
 	#endregion
 }

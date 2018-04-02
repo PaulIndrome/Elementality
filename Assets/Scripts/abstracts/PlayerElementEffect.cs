@@ -14,6 +14,7 @@ public abstract class PlayerElementEffect : PlayerAction {
 	protected Color playerColor;
 	protected ParticleSystem defenseParticles;
 	protected SphereCollider defenseCollider;
+	protected MeshRenderer defenseSphere;
 	protected Coroutine defenseEffect;
 
 	public virtual void Start(){
@@ -23,11 +24,13 @@ public abstract class PlayerElementEffect : PlayerAction {
 		if(defenseObject != null){
 			defenseParticles = defenseObject.GetComponent<ParticleSystem>();
 			defenseCollider = defenseObject.GetComponent<SphereCollider>();
+			defenseSphere = defenseObject.GetComponentInChildren<MeshRenderer>();
 			
 			var main = defenseParticles.main;
 			main.startColor = playerColor;
 			defenseParticles.Stop();
 			defenseCollider.enabled = false;
+			defenseSphere.enabled = false;
 			defenseObject.SetActive(true);
 		}
 	}
@@ -66,11 +69,11 @@ public abstract class PlayerElementEffect : PlayerAction {
 	}
 	
 	protected virtual IEnumerator ActivateDefenseShield(){
-		defenseCollider.enabled = true;
+		defenseCollider.enabled = defenseSphere.enabled = true;
 		defenseParticles.Play();
 		yield return new WaitForSeconds(buffDuration);
 		defenseParticles.Stop();
-		defenseCollider.enabled = false;
+		defenseCollider.enabled = defenseSphere.enabled = false;
 		defenseEffect = null;
 	}
 }

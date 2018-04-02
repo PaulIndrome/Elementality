@@ -52,7 +52,7 @@ public class PlayerFireEffect : PlayerElementEffect {
 		float timer = 0;
 		Vector3 lastSpawnPosition, currentPlayerPosition;
 		currentPlayerPosition = lastSpawnPosition = transform.position;
-		while(spawned < effectAmount){
+		while(spawned < effectAmount && defenseEffect != null){
 			while(Vector3.Distance(currentPlayerPosition, lastSpawnPosition) < maxSpacingDistance && timer < maxSpacingTime){
 				currentPlayerPosition = transform.position;
 				timer += Time.deltaTime;
@@ -67,16 +67,16 @@ public class PlayerFireEffect : PlayerElementEffect {
 		fireStepsSpawning = null;
 	}
 
-	protected override IEnumerator ActivateDefenseShield(){
-		defenseCollider.enabled = true;
+	/*protected override IEnumerator ActivateDefenseShield(){
+		defenseCollider.enabled = defenseSphere.enabled = true;
 		defenseParticles.Play();
 		yield return new WaitForSeconds(buffDuration);
 		defenseParticles.Stop();
-		defenseCollider.enabled = false;
+		defenseCollider.enabled = defenseSphere.enabled = false;
 		defenseEffect = null;
 		if(fireStepsSpawning != null){
 			StopCoroutine(fireStepsSpawning);
 			fireStepsSpawning = null;
 		}
-	}
+	}*/
 }

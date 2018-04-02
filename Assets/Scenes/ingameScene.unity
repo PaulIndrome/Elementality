@@ -368,8 +368,8 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 244524229}
   m_LocalRotation: {x: -0.067492984, y: -0, z: -0, w: 0.99771976}
-  m_LocalPosition: {x: 5.0762, y: 15.182971, z: -33.07569}
-  m_LocalScale: {x: 138.50545, y: 15.926344, z: 2.0831206}
+  m_LocalPosition: {x: 5.0762, y: 15.182971, z: -47.4}
+  m_LocalScale: {x: 138.50545, y: 15.926344, z: 27.962435}
   m_Children: []
   m_Father: {fileID: 1109444467}
   m_RootOrder: 8
@@ -1220,7 +1220,7 @@ GameObject:
   m_Layer: 0
   m_Name: testLauncher
   m_TagString: Untagged
-  m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
+  m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 0
